@@ -28,7 +28,7 @@ public class BeanFilters {
     }
 
     private void init(HttpServletRequest request) {
-        beans = new LinkedHashMap();
+        beans = new LinkedHashMap<>();
         for (String fieldName : BEAN_FORM_FIELD_FILTER) {
             String field = getStringUtil(request.getParameter(fieldName));
             beans.put(fieldName, field);
