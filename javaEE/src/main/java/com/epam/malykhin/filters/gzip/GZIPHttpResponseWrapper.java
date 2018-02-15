@@ -11,17 +11,13 @@ import java.io.PrintWriter;
 
 public class GZIPHttpResponseWrapper extends HttpServletResponseWrapper {
     private static final Logger LOG = Logger.getLogger(GZIPHttpResponseWrapper.class);
-    protected HttpServletResponse origResponse = null;
-    protected ServletOutputStream stream = null;
-    protected PrintWriter writer = null;
+    private HttpServletResponse origResponse = null;
+    private ServletOutputStream stream = null;
+    private PrintWriter writer = null;
 
     public GZIPHttpResponseWrapper(HttpServletResponse response) {
         super(response);
         origResponse = response;
-    }
-
-    public ServletOutputStream createOutputStream() throws IOException {
-        return new EpamGZIPOutputStream(origResponse);
     }
 
     public void finishResponse() {
@@ -64,6 +60,10 @@ public class GZIPHttpResponseWrapper extends HttpServletResponseWrapper {
         stream = createOutputStream();
         writer = new PrintWriter(new OutputStreamWriter(stream, "UTF-8"));
         return (writer);
+    }
+
+    private ServletOutputStream createOutputStream() throws IOException {
+        return new EpamGZIPOutputStream(origResponse);
     }
 
 }

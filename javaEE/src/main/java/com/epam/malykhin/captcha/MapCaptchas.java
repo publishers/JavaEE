@@ -10,10 +10,7 @@ import java.util.Map;
 public class MapCaptchas extends Thread {
 
     private static final Logger LOG = Logger.getLogger(MapCaptchas.class);
-    /**
-     * slept for 5 min
-     */
-    private final long sleepTime = 1000 * 60 * 5;
+    private final long sleepMillisecondTime = 1000 * 60 * 5;
     private Map<Integer, EpamCaptcha> map;
     private int setId = 0;
 
@@ -35,14 +32,14 @@ public class MapCaptchas extends Thread {
             try {
                 if (map.size() > 0)
                     cleanCaptchaMap();
-                sleep(sleepTime / 2);
+                sleep(sleepMillisecondTime / 2);
             } catch (InterruptedException e) {
                 LOG.warn(e);
             }
         }
     }
 
-    public synchronized void cleanCaptchaMap() {
+    private synchronized void cleanCaptchaMap() {
         synchronized (map) {
             Iterator<Map.Entry<Integer, EpamCaptcha>> iter = map.entrySet().iterator();
             while (iter.hasNext()) {
@@ -60,7 +57,7 @@ public class MapCaptchas extends Thread {
 
     private boolean isNeedRemove(EpamCaptcha value) {
         long currentTime = System.currentTimeMillis();
-        return (currentTime - value.getTime()) < sleepTime ? false : true;
+        return (currentTime - value.getCreatedTime()) < sleepMillisecondTime ? false : true;
     }
 
     public boolean containsValue(EpamCaptcha epamCaptcha) {

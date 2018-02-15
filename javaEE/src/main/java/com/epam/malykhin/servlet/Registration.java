@@ -77,10 +77,10 @@ public class Registration extends HttpServlet {
                         return;
                     }
                 } else {
-                    request.getSession().setAttribute(INCORRECT_REGISTRATION, "This email is registered");
+                    request.getSession().setAttribute(INCORRECT_REGISTRATION, "This email has already registered");
                 }
             } catch (BusinessException ex) {
-                LOG.warn("Something was wrong: \n" + ex);
+                LOG.warn("Something went wrong: \n" + ex);
             }
         }
         response.sendRedirect(request.getRequestURI());

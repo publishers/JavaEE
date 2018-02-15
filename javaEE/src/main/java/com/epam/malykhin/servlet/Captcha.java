@@ -60,14 +60,14 @@ public class Captcha extends HttpServlet {
                 (com.epam.malykhin.captcha.save.Captcha) servletContext.getAttribute(SAVER_CAPTCHA);
         captcha.setRequest(request);
         MapCaptchas mapCaptchas = (MapCaptchas) servletContext.getAttribute(MAP_CAPTCHA);
-        if (captcha == null || mapCaptchas == null) return null;
+        if (mapCaptchas == null) return null;
         Integer val = captcha.getIdCaptcha();
-        return (mapCaptchas == null || val == null) ? null :
+        return val == null ? null :
                 mapCaptchas.getCaptchaById(val) != null ?
                         mapCaptchas.getCaptchaById(val).getCaptcha() : null;
     }
 
-    protected void setResponseHeaders(HttpServletResponse response) {
+    private void setResponseHeaders(HttpServletResponse response) {
         response.setContentType("image/" + cage.getFormat());
         response.setHeader("Cache-Control", "no-cache, no-store");
         response.setHeader("Pragma", "no-cache");

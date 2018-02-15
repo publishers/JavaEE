@@ -57,13 +57,7 @@ public class UserServiceBan implements Service {
     }
 
     private boolean isUserBanTimeOver(User tempUser, UserBan userBan, User user) {
-        boolean result;
-        if (userBan.getDate().getTime() - System.currentTimeMillis() < 0) {
-            result = isCorrectUser(tempUser, userBan, user, true);
-        } else {
-            result = true;
-        }
-        return result;
+        return userBan.getDate().getTime() - System.currentTimeMillis() >= 0 || isCorrectUser(tempUser, userBan, user, true);
     }
 
     private boolean isCorrectUser(User tempUser, UserBan userBan, User user, boolean isChangeBanTime) {

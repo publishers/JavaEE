@@ -65,7 +65,7 @@ public class CartAction extends HttpServlet {
         if (!action.equals("updateGoodsData")) {
             actionMap.get(action).doAction(cart, goods);
             json.put("orderSum", cart.getSumOfOrder());
-            json.put("orderCountGoods", cart.countGoods());
+            json.put("orderCountGoods", cart.getCountOrder());
         } else {
             json.put("count", cart.getCart().get(goods));
             json.put("priceGoods", goods.getPrice());
@@ -86,7 +86,7 @@ public class CartAction extends HttpServlet {
         return idGoods.matches("\\d+") ? idGoods : null;
     }
 
-    public void sendJSONResponse(HttpServletResponse response, JSONObject json) throws IOException {
+    private void sendJSONResponse(HttpServletResponse response, JSONObject json) throws IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();

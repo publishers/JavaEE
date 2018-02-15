@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.CART_SESSION;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_SESSION;
 
 
 @WebServlet("/finalOrderPage")
@@ -26,6 +28,7 @@ public class FinalOrderPage extends HttpServlet {
         orderService.init(getServletContext());
     }
 
+    // TODO: need refactoring
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -33,8 +36,10 @@ public class FinalOrderPage extends HttpServlet {
         if (!isNull(action) && !isNull(orderId) && orderId.matches("\\d+")) {
             Order order = getOrder(request);
             if (!isNull(order)) {
-                if (getStatus(action, order.getStatusOrder()) != order.getStatusOrder()) {
-                    order = getOrder(order, getStatus(action, order.getStatusOrder()), getDescribeStatus(action));
+                StatusOrder statusOrder;
+                if ((statusOrder = getStatus(action, order.getStatusOrder())) != order.getStatusOrder()) {
+                    String description = "User " + statusOrder.getDescriptionStatus()+ " order!";
+                    order = getOrder(order, statusOrder, description);
                     orderService.updateOrderStatus(order, Integer.parseInt(orderId));
                     removeOrderAndCart(request);
                     request.setAttribute("goods", order.getCart());
@@ -62,16 +67,6 @@ public class FinalOrderPage extends HttpServlet {
                 return StatusOrder.CONFIRMED;
         }
         return oldStatus;
-    }
-
-    private String getDescribeStatus(String action) {
-        switch (action) {
-            case "cancel":
-                return "User canceled order!";
-            case "confirm":
-                return "User confirmed order!";
-        }
-        return "User is doing smth wrong";
     }
 
     private Order getOrder(HttpServletRequest request) {

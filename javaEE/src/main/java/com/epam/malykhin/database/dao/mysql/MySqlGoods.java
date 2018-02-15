@@ -39,7 +39,7 @@ public class MySqlGoods implements GoodsDAO {
     public int getNumberGoods(Connection connection, BeanFilters beanFilters) throws SQLException {
         mySQLQueryBuilderFilter = new MySQLQueryBuilderFilter(beanFilters);
         PreparedStatement preparedStatement = connection.prepareStatement("select count(*) as count from `" + TABLE_NAME + "` " + mySQLQueryBuilderFilter.getQueryFilterWhere());
-        List listParamWhere = new ArrayList(mySQLQueryBuilderFilter.getFilterWhere().getBeansWhereFilters().values());
+        List listParamWhere = new ArrayList<>(mySQLQueryBuilderFilter.getFilterWhere().getBeansWhereFilters().values());
         setupPreparedStatement(preparedStatement, listParamWhere);
         LOG.debug(preparedStatement);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -77,7 +77,7 @@ public class MySqlGoods implements GoodsDAO {
         return goods;
     }
 
-    public void setupPreparedStatement(PreparedStatement preparedStatement, List parameters) throws SQLException {
+    private void setupPreparedStatement(PreparedStatement preparedStatement, List parameters) throws SQLException {
         for (int i = 0; i < parameters.size(); i++) {
             preparedStatement.setObject(i + 1, parameters.get(i));
         }

@@ -21,7 +21,7 @@ public class TransactionManager<T> {
     }
 
     public <T> T execute(TransactionOperation<T> transactionOperation) {
-        T result = null;
+        T result;
         Connection connection = null;
         try {
             connection = connectionHolder.getConnection();

@@ -42,7 +42,7 @@ public class ShowAvatar extends HttpServlet {
         out.close();
     }
 
-    protected void setResponseHeaders(HttpServletResponse response) {
+    private void setResponseHeaders(HttpServletResponse response) {
         response.setContentType("image/jpeg");
         response.setHeader("Cache-Control", "no-cache, no-store");
         response.setHeader("Pragma", "no-cache");

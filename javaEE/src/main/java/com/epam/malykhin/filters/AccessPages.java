@@ -72,8 +72,7 @@ public class AccessPages implements Filter {
     }
 
     private User getUser(HttpServletRequest httpRequest) {
-        User user = (User) httpRequest.getSession().getAttribute(USER_SESSION);
-        return user;
+        return (User) httpRequest.getSession().getAttribute(USER_SESSION);
     }
 
     @Override

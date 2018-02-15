@@ -10,6 +10,6 @@ public class BusinessException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "Connection was something wrong: \n " + error;
+        return "Something was wrong: \n " + error;
     }
 }

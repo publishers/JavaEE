@@ -15,11 +15,11 @@ import static java.util.Objects.isNull;
 
 public class EpamGZIPOutputStream extends ServletOutputStream {
     private static final Logger LOG = Logger.getLogger(EpamGZIPOutputStream.class);
-    protected ByteArrayOutputStream baos = null;
-    protected GZIPOutputStream gzipstream = null;
-    protected boolean closed = false;
+    private ByteArrayOutputStream baos = null;
+    private GZIPOutputStream gzipstream = null;
+    private boolean closed = false;
     protected HttpServletResponse response = null;
-    protected ServletOutputStream output = null;
+    private ServletOutputStream output = null;
 
     public EpamGZIPOutputStream(HttpServletResponse response) throws IOException {
         super();

@@ -1,21 +1,21 @@
 package com.epam.malykhin.database.entity;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 
+@Getter
 public class Cart implements Serializable {
     private Map<Goods, Integer> cart;
     private int sumOfOrder;
     private int countOrder;
 
     public Cart() {
-        cart = new HashMap<>();
-    }
-
-    public int getSumOfOrder() {
-        return sumOfOrder;
+        cart = new Hashtable<>();
     }
 
     public synchronized void add(Goods goods) {
@@ -49,13 +49,5 @@ public class Cart implements Serializable {
             sumOfOrder -= cart.get(goods) * goods.getPrice();
             cart.remove(goods);
         }
-    }
-
-    public Map<Goods, Integer> getCart() {
-        return cart;
-    }
-
-    public int countGoods() {
-        return countOrder;
     }
 }

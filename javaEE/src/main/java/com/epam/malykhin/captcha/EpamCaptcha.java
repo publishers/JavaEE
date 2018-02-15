@@ -1,41 +1,16 @@
 package com.epam.malykhin.captcha;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import java.io.Serializable;
 
-
+@AllArgsConstructor
+@EqualsAndHashCode(exclude = {"createdTime"})
 public class EpamCaptcha implements Serializable {
+    @Getter
     private int captcha;
-    private long time;
-
-    public EpamCaptcha(int captcha, long time) {
-        this.captcha = captcha;
-        this.time = time;
-    }
-
-    public int getCaptcha() {
-        return captcha;
-    }
-
-    public void setCaptcha(int captcha) {
-        this.captcha = captcha;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EpamCaptcha that = (EpamCaptcha) o;
-
-        return captcha == that.captcha;
-    }
-
-    @Override
-    public int hashCode() {
-        return (captcha ^ (captcha >>> 32));
-    }
+    @Getter
+    private long createdTime;
 }

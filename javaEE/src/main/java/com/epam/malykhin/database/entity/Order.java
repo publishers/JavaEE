@@ -1,12 +1,18 @@
 package com.epam.malykhin.database.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-
+@Getter
+@Setter
+@ToString
 public class Order implements Serializable {
     private int idUser;
     private long date;
@@ -30,42 +36,8 @@ public class Order implements Serializable {
     }
 
     private void countTotalPrice() {
-        Iterator<Map.Entry<Goods, Integer>> cart = this.getCart().entrySet().iterator();
-        while (cart.hasNext()) {
-            Map.Entry<Goods, Integer> goods = cart.next();
+        for (Map.Entry<Goods, Integer> goods : this.getCart().entrySet()) {
             totalPrice += goods.getValue() * goods.getKey().getPrice();
         }
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public long getDate() {
-        return date;
-    }
-
-    public StatusOrder getStatusOrder() {
-        return statusOrder;
-    }
-
-    public String getDescriptionStatus() {
-        return descriptionStatus;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPaymentCardNumber() {
-        return paymentCardNumber;
-    }
-
-    public Map<Goods, Integer> getCart() {
-        return cart;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
     }
 }
