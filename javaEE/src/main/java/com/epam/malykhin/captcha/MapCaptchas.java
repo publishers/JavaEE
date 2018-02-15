@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Created by Serhii_Malykhin on 04.12.16.
- */
+
 public class MapCaptchas extends Thread {
 
     private static final Logger LOG = Logger.getLogger(MapCaptchas.class);

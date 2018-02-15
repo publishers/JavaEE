@@ -2,9 +2,7 @@ package com.epam.malykhin.servlet.pages;
 
 import java.io.File;
 
-/**
- * Created by Serhii_Malykhin on 12/7/2016.
- */
+
 public class Pages {
     public static final String SERVLET_ACCOUNT = "authorization";
     public static final String SERVLET_INDEX = "index";

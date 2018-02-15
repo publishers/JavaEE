@@ -12,9 +12,7 @@ import java.io.IOException;
 import static com.epam.malykhin.util.StaticTransformVariable.USER_SESSION;
 import static java.util.Objects.isNull;
 
-/**
- * Created by Serhii_Malykhin on 12/29/2016.
- */
+
 public class AccessPages implements Filter {
     private static final String[] EXCEPTION_PAGES = {"css", "js", "images", "fonts", "WEB-INF"};
     private SecurityData securityData;

@@ -1,8 +1,6 @@
 package com.epam.malykhin.database.entity;
 
-/**
- * Created by Serhii_Malykhin on 12/2/2016.
- */
+
 public class User {
     private int idUser;
     private String firstName;

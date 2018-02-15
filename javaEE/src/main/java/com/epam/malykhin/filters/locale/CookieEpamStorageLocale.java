@@ -7,9 +7,7 @@ import java.util.Locale;
 
 import static java.util.Objects.isNull;
 
-/**
- * Created by Serhii_Malykhin on 12/23/2016.
- */
+
 public class CookieEpamStorageLocale implements EpamStorageLocale {
     private Integer maxAge;
 

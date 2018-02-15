@@ -13,9 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Serhii_Malykhin on 12/13/2016.
- */
+
 public class MySqlGoods implements GoodsDAO {
     private static final Logger LOG = Logger.getLogger(MySqlGoods.class);
     private static final String TABLE_NAME = "goods";

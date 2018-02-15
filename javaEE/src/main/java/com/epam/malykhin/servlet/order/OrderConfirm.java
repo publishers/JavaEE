@@ -1,6 +1,7 @@
 package com.epam.malykhin.servlet.order;
 
 import com.epam.malykhin.bean.BeanOrder;
+import com.epam.malykhin.bean.validation.Validator;
 import com.epam.malykhin.bean.validation.ValidatorOrder;
 import com.epam.malykhin.database.entity.Cart;
 import com.epam.malykhin.database.entity.Order;
@@ -18,11 +19,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.CART_SESSION;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_SESSION;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SESSION;
 
-/**
- * Created by Serhii Malykhin on 21.12.16.
- */
+
 @WebServlet("/confirm")
 public class OrderConfirm extends HttpServlet {
     private OrderService orderService;
@@ -50,9 +52,9 @@ public class OrderConfirm extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Cart cart = getCart(request);
         BeanOrder beanOrder = getBeanOrder(request);
-        ValidatorOrder validatorOrder = getValidatorOrder(beanOrder);
-        validatorOrder.start();
-        if (!validatorOrder.isValidOrder()) {
+        Validator validatorOrder = getValidatorOrder(beanOrder);
+        validatorOrder.doValidation();
+        if (!validatorOrder.isValid()) {
             response.sendRedirect(Pages.SERVLET_ORDER);
             return;
         }
@@ -78,9 +80,10 @@ public class OrderConfirm extends HttpServlet {
     }
 
 
-    private Order getOrder(HttpServletRequest request, Cart cart, ValidatorOrder validatorOrder, StatusOrder statusOrder, String describe) {
+    private Order getOrder(HttpServletRequest request, Cart cart, Validator validator, StatusOrder statusOrder, String describe) {
         User user = getUser(request);
         Date date = new Date();
+        ValidatorOrder validatorOrder = (ValidatorOrder) validator;
         return new Order(user.getIdUser(), date.getTime(),
                 statusOrder, describe, validatorOrder.getBeanOrder().getAddress(),
                 validatorOrder.getBeanOrder().getCard(), cart.getCart());
@@ -88,8 +91,7 @@ public class OrderConfirm extends HttpServlet {
 
     private User getUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(USER_SESSION);
-        return user;
+        return (User) session.getAttribute(USER_SESSION);
     }
 
     private boolean isNull(Object object) {

@@ -15,9 +15,7 @@ import java.io.IOException;
 
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 
-/**
- * Created by Serhii_Malykhin on 12/22/2016.
- */
+
 @WebServlet("/finalOrderPage")
 public class FinalOrderPage extends HttpServlet {
     private OrderService orderService;

@@ -5,9 +5,7 @@ import com.epam.malykhin.database.entity.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * Created by Serhii_Malykhin on 12/7/2016.
- */
+
 public interface UserDAO {
     boolean update(Connection conn, User user) throws SQLException;
 

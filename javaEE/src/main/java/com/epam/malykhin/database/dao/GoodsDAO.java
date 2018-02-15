@@ -7,9 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by Serhii_Malykhin on 12/13/2016.
- */
+
 public interface GoodsDAO {
 
     Goods select(Connection connection, Goods goods) throws SQLException;

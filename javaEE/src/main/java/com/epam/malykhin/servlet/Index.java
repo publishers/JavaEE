@@ -18,9 +18,7 @@ import java.util.List;
 
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 
-/**
- * Created by Serhii_Malykhin on 12/7/2016.
- */
+
 @WebServlet("/index")
 public class Index extends HttpServlet {
     private TypeService typeService;

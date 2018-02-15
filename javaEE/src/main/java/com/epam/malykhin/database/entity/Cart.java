@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Serhii_Malykhin on 18.12.16.
- */
+
 public class Cart implements Serializable {
     private Map<Goods, Integer> cart;
     private int sumOfOrder;

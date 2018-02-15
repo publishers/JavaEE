@@ -18,9 +18,7 @@ import javax.servlet.annotation.WebListener;
 
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 
-/**
- * Created by Serhii_Malykhin on 12/2/2016.
- */
+
 @WebListener
 public class ContextListener implements ServletContextListener {
     private FactoryEpamStorageLocale factoryEpamLocaleStorage = new FactoryEpamStorageLocale();

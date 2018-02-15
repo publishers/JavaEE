@@ -1,8 +1,6 @@
 package com.epam.malykhin.util;
 
-/**
- * Created by Serhii_Malykhin on 12/5/2016.
- */
+
 public class StaticTransformVariable {
     public static final String
             SAVER_CAPTCHA = "saverCaptcha",

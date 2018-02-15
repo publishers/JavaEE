@@ -10,9 +10,7 @@ import javax.servlet.ServletContext;
 
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 
-/**
- * Created by Serhii_Malykhin on 12/19/2016.
- */
+
 public class OrderService implements Service {
     private OrderCartDAO orderCartDAO;
     private OrderDAO orderDAO;

@@ -1,8 +1,6 @@
 package com.epam.malykhin.database.entity;
 
-/**
- * Created by Serhii_Malykhin on 12/14/2016.
- */
+
 public class Manufacturer {
     private int id;
     private String name;

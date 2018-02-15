@@ -10,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Serhii Malykhin on 20.12.16.
- */
+
 public class MySqlOrder implements OrderDAO {
     private static final String TABLE_NAME = "order";
 

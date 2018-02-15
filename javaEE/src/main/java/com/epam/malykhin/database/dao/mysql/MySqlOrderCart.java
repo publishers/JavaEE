@@ -9,9 +9,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Created by Serhii_Malykhin on 12/21/2016.
- */
+
 public class MySqlOrderCart implements OrderCartDAO {
     private static final String TABLE_NAME = "ordercart";
 

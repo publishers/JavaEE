@@ -8,9 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Serhii_Malykhin on 12/30/2016.
- */
+
 public class MySqlUserBan implements UserBanDAO {
     private static final String TABLE_NAME = "user_ban";
 

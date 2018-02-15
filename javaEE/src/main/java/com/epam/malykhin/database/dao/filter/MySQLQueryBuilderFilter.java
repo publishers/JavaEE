@@ -5,9 +5,7 @@ import com.epam.malykhin.bean.BeanFilters;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Serhii_Malykhin on 12/13/2016.
- */
+
 public class MySQLQueryBuilderFilter {
     private FilterWhere filterWhere;
     private FilterLimit filterLimit;

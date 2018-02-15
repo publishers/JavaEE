@@ -13,9 +13,7 @@ import java.io.IOException;
 
 import static com.epam.malykhin.util.StaticTransformVariable.CART_SESSION;
 
-/**
- * Created by Serhii_Malykhin on 12/20/2016.
- */
+
 @WebServlet("/order")
 public class OrderServlet extends HttpServlet {
 

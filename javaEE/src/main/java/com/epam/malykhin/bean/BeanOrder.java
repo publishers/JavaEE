@@ -1,13 +1,19 @@
 package com.epam.malykhin.bean;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by Serhii Malykhin on 21.12.16.
- */
+
+@ToString
 public class BeanOrder {
+    @Getter @Setter
     private String card;
+    @Getter @Setter
     private String address;
+    @Getter @Setter
     private String typeOfPayment;
 
     public BeanOrder(HttpServletRequest request) {
@@ -20,27 +26,4 @@ public class BeanOrder {
         typeOfPayment = request.getParameter("typeOfPayment");
     }
 
-    public String getCard() {
-        return card;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getTypeOfPayment() {
-        return typeOfPayment;
-    }
-
-    public void setCard(String card) {
-        this.card = card;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setTypeOfPayment(String typeOfPayment) {
-        this.typeOfPayment = typeOfPayment;
-    }
 }

@@ -1,8 +1,6 @@
 package com.epam.malykhin.database.exception;
 
-/**
- * Created by Serhii_Malykhin on 12/7/2016.
- */
+
 public class BusinessException extends RuntimeException {
     private Object error;
 

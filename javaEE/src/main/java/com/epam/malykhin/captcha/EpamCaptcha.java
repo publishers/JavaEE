@@ -2,9 +2,7 @@ package com.epam.malykhin.captcha;
 
 import java.io.Serializable;
 
-/**
- * Created by Serhii_Malykhin on 04.12.16.
- */
+
 public class EpamCaptcha implements Serializable {
     private int captcha;
     private long time;

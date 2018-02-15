@@ -13,9 +13,7 @@ import java.util.*;
 import static com.epam.malykhin.util.StaticTransformVariable.TYPE_LOCALE_STORAGE;
 import static java.util.Objects.isNull;
 
-/**
- * Created by Serhii_Malykhin on 12/23/2016.
- */
+
 public class LocaleFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(LocaleFilter.class);
     public static final Locale DEFAULT_LOCALE = new Locale("en");

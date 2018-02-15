@@ -17,9 +17,7 @@ import java.io.OutputStream;
 import static com.epam.malykhin.util.Paths.get;
 import static com.epam.malykhin.util.StaticTransformVariable.USER_SESSION;
 
-/**
- * Created by Serhii_Malykhin on 12/9/2016.
- */
+
 @WebServlet("/avatar")
 public class ShowAvatar extends HttpServlet {
 

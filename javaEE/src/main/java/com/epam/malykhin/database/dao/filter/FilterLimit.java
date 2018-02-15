@@ -8,9 +8,7 @@ import java.util.Map;
 
 import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_NUMBER_GOODS;
 
-/**
- * Created by Serhii_Malykhin on 12/16/2016.
- */
+
 public class FilterLimit {
     private static final String[] BEAN_FORM_FIELD_FILTER = {
             FORM_FIELD_FILTER_NUMBER_GOODS,

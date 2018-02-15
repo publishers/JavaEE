@@ -14,9 +14,7 @@ import java.io.IOException;
 import static com.epam.malykhin.util.StaticTransformVariable.CART_SESSION;
 import static java.util.Objects.isNull;
 
-/**
- * Created by Serhii_Malykhin on 12/30/2016.
- */
+
 @WebServlet("/showcart")
 public class ShowCart extends HttpServlet {
     @Override

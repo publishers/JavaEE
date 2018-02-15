@@ -1,6 +1,7 @@
 package com.epam.malykhin.servlet;
 
 import com.epam.malykhin.bean.BeanForm;
+import com.epam.malykhin.bean.validation.Validator;
 import com.epam.malykhin.bean.validation.ValidatorForm;
 import com.epam.malykhin.captcha.EpamCaptcha;
 import com.epam.malykhin.captcha.MapCaptchas;
@@ -27,9 +28,7 @@ import java.util.Random;
 
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 
-/**
- * Created by Serhii_Malykhin on 11/30/2016.
- */
+
 @WebServlet("/registration")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10,      // 10MB
@@ -61,12 +60,12 @@ public class Registration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BeanForm beanForm = getBeanForm(request);
-        ValidatorForm validatorForm = getValidatorForm(beanForm);
-        validatorForm.startValidation();
+        Validator validatorForm = getValidatorForm(beanForm);
+        validatorForm.doValidation();
         request.getSession().setAttribute(COM_EPAM_MALYKHIN_BEAN_FORM, beanForm);
         request.getSession().setAttribute(COM_EPAM_MALYKHIN_VALID_FIELDS, validatorForm);
 
-        if (validatorForm.isValidForm() && isValidCaptcha(request, beanForm)) {
+        if (validatorForm.isValid() && isValidCaptcha(request, beanForm)) {
             User user = extractUser(beanForm);
             UserService uService = getUserService(request);
             try {
@@ -160,7 +159,7 @@ public class Registration extends HttpServlet {
         return user;
     }
 
-    private ValidatorForm getValidatorForm(BeanForm beanForm) {
+    private Validator getValidatorForm(BeanForm beanForm) {
         return new ValidatorForm(beanForm);
     }
 

@@ -14,9 +14,7 @@ import java.sql.Timestamp;
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 import static java.util.Objects.isNull;
 
-/**
- * Created by Serhii_Malykhin on 12/30/2016.
- */
+
 public class UserServiceBan implements Service {
     private UserBanDAO userBanDAO;
     private UserDAO userDAO;

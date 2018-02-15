@@ -22,9 +22,7 @@ import static com.epam.malykhin.util.StaticTransformVariable.CART_SESSION;
 import static com.epam.malykhin.util.StaticTransformVariable.GOODS_SERVICE;
 import static java.util.Objects.isNull;
 
-/**
- * Created by Serhii_Malykhin on 17.12.16.
- */
+
 @WebServlet("/cart")
 public class CartAction extends HttpServlet {
     private GoodsService goodsService;

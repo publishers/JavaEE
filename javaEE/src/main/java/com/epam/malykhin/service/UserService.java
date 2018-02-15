@@ -10,9 +10,7 @@ import javax.servlet.ServletContext;
 import static com.epam.malykhin.util.StaticTransformVariable.CONTEXT_LISTENER_TRANSACTION_MANAGER;
 import static com.epam.malykhin.util.StaticTransformVariable.USER_DAO;
 
-/**
- * Created by Serhii_Malykhin on 12/2/2016.
- */
+
 public class UserService implements Service {
     private UserDAO userDAO;
     private TransactionManager transactionManager;

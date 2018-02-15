@@ -10,9 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Serhii Malykhin on 15.12.16.
- */
+
 public class MySqlType implements TypeDAO {
     private static final String TABLE_NAME = "type";
 

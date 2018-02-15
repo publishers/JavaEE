@@ -4,9 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
-/**
- * Created by Serhii_Malykhin on 12/23/2016.
- */
+
 public class SessionEpamStorageLocale implements EpamStorageLocale {
 
     @Override

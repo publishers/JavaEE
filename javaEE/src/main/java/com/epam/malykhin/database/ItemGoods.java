@@ -4,9 +4,7 @@ import com.epam.malykhin.database.entity.Goods;
 import com.epam.malykhin.database.entity.Manufacturer;
 import com.epam.malykhin.database.entity.Type;
 
-/**
- * Created by Serhii_Malykhin on 12/14/2016.
- */
+
 public class ItemGoods {
     private Goods goods;
     private Type type;

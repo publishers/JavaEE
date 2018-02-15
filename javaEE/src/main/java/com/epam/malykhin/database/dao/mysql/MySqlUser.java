@@ -8,9 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Serhii_Malykhin on 12/7/2016.
- */
+
 public class MySqlUser implements UserDAO {
     private static final String TABLE_NAME = "user";
 

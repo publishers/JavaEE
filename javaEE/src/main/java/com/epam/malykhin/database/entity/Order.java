@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Created by Serhii_Malykhin on 12/19/2016.
- */
+
 public class Order implements Serializable {
     private int idUser;
     private long date;

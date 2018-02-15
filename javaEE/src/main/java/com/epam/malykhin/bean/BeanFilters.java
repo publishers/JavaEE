@@ -7,9 +7,7 @@ import java.util.Map;
 import static com.epam.malykhin.bean.BeanForm.getStringUtil;
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 
-/**
- * Created by Serhii_Malykhin on 12/13/2016.
- */
+
 public class BeanFilters {
     private static final String[] BEAN_FORM_FIELD_FILTER = {
             FORM_FIELD_FILTER_NAME,

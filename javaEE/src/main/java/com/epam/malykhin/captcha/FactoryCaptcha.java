@@ -5,9 +5,7 @@ import com.epam.malykhin.captcha.save.CookieCaptcha;
 import com.epam.malykhin.captcha.save.HiddenFieldCaptcha;
 import com.epam.malykhin.captcha.save.SessionCaptcha;
 
-/**
- * Created by Serhii_Malykhin on 04.12.16.
- */
+
 public class FactoryCaptcha {
     private String captcha;
 

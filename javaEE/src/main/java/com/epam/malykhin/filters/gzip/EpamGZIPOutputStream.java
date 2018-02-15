@@ -12,9 +12,7 @@ import java.util.zip.GZIPOutputStream;
 import static java.util.Objects.isNull;
 
 
-/**
- * Created by Serhii Malykhin on 28.12.16.
- */
+
 public class EpamGZIPOutputStream extends ServletOutputStream {
     private static final Logger LOG = Logger.getLogger(EpamGZIPOutputStream.class);
     protected ByteArrayOutputStream baos = null;

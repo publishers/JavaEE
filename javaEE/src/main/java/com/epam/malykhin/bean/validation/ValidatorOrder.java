@@ -2,10 +2,8 @@ package com.epam.malykhin.bean.validation;
 
 import com.epam.malykhin.bean.BeanOrder;
 
-/**
- * Created by Serhii Malykhin on 21.12.16.
- */
-public class ValidatorOrder {
+
+public class ValidatorOrder implements Validator{
     private static final String CARD = "^((\\d{16})|(\\d{4} \\d{4} \\d{4} \\d{4}))$";
     private static final String ADDRESS = "^.{5,}$";
     private boolean isValidOrder = true;
@@ -15,7 +13,7 @@ public class ValidatorOrder {
         this.beanOrder = beanOrder;
     }
 
-    public void start() {
+    public void doValidation() {
         String typeOfPayment = beanOrder.getTypeOfPayment();
         if (typeOfPayment == null) {
             isValidOrder = false;
@@ -33,7 +31,7 @@ public class ValidatorOrder {
         }
     }
 
-    public boolean isValidOrder() {
+    public boolean isValid() {
         return isValidOrder;
     }
 

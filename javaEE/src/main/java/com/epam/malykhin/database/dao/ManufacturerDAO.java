@@ -6,9 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by Serhii Malykhin on 15.12.16.
- */
+
 public interface ManufacturerDAO {
     Manufacturer select(Connection connection, int id) throws SQLException;
 

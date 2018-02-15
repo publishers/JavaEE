@@ -17,9 +17,7 @@ import java.util.Map;
 
 import static com.epam.malykhin.util.StaticTransformVariable.*;
 
-/**
- * Created by Serhii_Malykhin on 12/7/2016.
- */
+
 @WebServlet("/authorization")
 public class Authorization extends HttpServlet {
     private UserService userService;

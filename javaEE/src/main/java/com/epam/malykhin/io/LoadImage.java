@@ -16,9 +16,7 @@ import java.io.IOException;
 import static com.epam.malykhin.util.Paths.get;
 import static com.epam.malykhin.util.Paths.getEXTENSION;
 
-/**
- * Created by Serhii_Malykhin on 12/9/2016.
- */
+
 public class LoadImage {
     private static final Logger LOGGER = Logger.getLogger(JdbcConnectionHolder.class);
 

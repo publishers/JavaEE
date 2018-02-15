@@ -10,10 +10,8 @@ import java.util.Map;
 import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_PASSWORD;
 import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_PASSWORD2;
 
-/**
- * Created by Serhii_Malykhin on 02.12.16.
- */
-public class ValidatorForm {
+
+public class ValidatorForm implements Validator{
     private static final Logger LOG = Logger.getLogger(ValidatorForm.class);
     private static final String REGEX_PASSWORD = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*{8,}";
     private static final String REGEX_EMAIL = "^[\\.a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
@@ -34,7 +32,7 @@ public class ValidatorForm {
         beanFormValidation = new LinkedHashMap<>();
     }
 
-    public void startValidation() {
+    public void doValidation() {
         Map<String, String> beans = beanForm.getBeans();
         Iterator<Map.Entry<String, String>> iter = beans.entrySet().iterator();
         for (int nextElement = 0; iter.hasNext(); nextElement++) {
@@ -44,16 +42,16 @@ public class ValidatorForm {
                         tmp.getKey(),
                         checkValidationFieldByRegex(
                                 tmp.getValue(),
-                                REGEX_FORM_VALIDATION[nextElement]) ? true : (isValidForm = false)
+                                REGEX_FORM_VALIDATION[nextElement]) || (isValidForm = false)
                 );
             } else {
                 beanFormValidation.put(tmp.getKey(), (isValidForm = false));
             }
         }
-        validatePasswords();
+        comparePasswords();
     }
 
-    private void validatePasswords() {
+    private void comparePasswords() {
         Map<String, String> beans = beanForm.getBeans();
         String pass = beans.get(FORM_FIELD_PASSWORD);
         String pass2 = beans.get(FORM_FIELD_PASSWORD2);
@@ -66,7 +64,7 @@ public class ValidatorForm {
         }
     }
 
-    public boolean isValidForm() {
+    public boolean isValid() {
         return isValidForm;
     }
 

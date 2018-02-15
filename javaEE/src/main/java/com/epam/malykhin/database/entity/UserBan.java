@@ -2,9 +2,7 @@ package com.epam.malykhin.database.entity;
 
 import java.sql.Timestamp;
 
-/**
- * Created by Serhii_Malykhin on 12/30/2016.
- */
+
 public class UserBan {
     private int idUser;
     private Timestamp date;

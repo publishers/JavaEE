@@ -6,9 +6,7 @@ import com.epam.malykhin.filters.locale.SessionEpamStorageLocale;
 
 import static java.util.Objects.isNull;
 
-/**
- * Created by Serhii_Malykhin on 12/23/2016.
- */
+
 public class FactoryEpamStorageLocale {
     private EpamStorageLocale epamStorageLocale;
 

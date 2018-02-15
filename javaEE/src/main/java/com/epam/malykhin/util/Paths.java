@@ -2,9 +2,7 @@ package com.epam.malykhin.util;
 
 import java.io.File;
 
-/**
- * Created by Serhii Malykhin on 13.12.16.
- */
+
 public class Paths {
 
     private static final String PATH = "avatars";

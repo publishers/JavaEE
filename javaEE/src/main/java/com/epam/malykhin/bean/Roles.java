@@ -1,12 +1,15 @@
 package com.epam.malykhin.bean;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Serhii_Malykhin on 12/29/2016.
- */
+
+@ToString
 public class Roles {
+    @Getter
     private List<Integer> roles;
 
     public Roles() {
@@ -21,12 +24,4 @@ public class Roles {
         return roles.contains(role);
     }
 
-    public List<Integer> getRoles() {
-        return roles;
-    }
-
-    @Override
-    public String toString() {
-        return "{" + roles + '}';
-    }
 }

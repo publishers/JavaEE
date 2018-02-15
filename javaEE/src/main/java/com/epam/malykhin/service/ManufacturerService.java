@@ -10,9 +10,7 @@ import java.util.List;
 import static com.epam.malykhin.util.StaticTransformVariable.CONTEXT_LISTENER_TRANSACTION_MANAGER;
 import static com.epam.malykhin.util.StaticTransformVariable.MANUFACTURER_DAO;
 
-/**
- * Created by Serhii_Malykhin on 12/15/2016.
- */
+
 public class ManufacturerService implements Service {
     private ManufacturerDAO manufacturerDAO;
     private TransactionManager transactionManager;
@@ -28,6 +26,6 @@ public class ManufacturerService implements Service {
     }
 
     public List<Manufacturer> selectAll() {
-        return (List<Manufacturer>) transactionManager.execute(connection -> manufacturerDAO.selectAll(connection));
+        return (List<Manufacturer>) transactionManager.execute(manufacturerDAO::selectAll);
     }
 }

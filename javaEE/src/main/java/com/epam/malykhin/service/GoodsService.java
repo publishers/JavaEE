@@ -11,9 +11,7 @@ import java.util.List;
 import static com.epam.malykhin.util.StaticTransformVariable.CONTEXT_LISTENER_TRANSACTION_MANAGER;
 import static com.epam.malykhin.util.StaticTransformVariable.GOODS_DAO;
 
-/**
- * Created by Serhii_Malykhin on 12/15/2016.
- */
+
 public class GoodsService implements Service {
 
     private GoodsDAO goodsDAO;

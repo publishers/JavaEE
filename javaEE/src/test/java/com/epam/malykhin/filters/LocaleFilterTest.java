@@ -21,9 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.Mock;
 
-/**
- * Created by Serhii Malykhin on 27.12.16.
- */
+
 @RunWith(MockitoJUnitRunner.class)
 public class LocaleFilterTest {
     @Mock
