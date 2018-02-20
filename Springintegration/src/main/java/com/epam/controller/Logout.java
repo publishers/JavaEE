@@ -13,7 +13,7 @@ public class Logout {
     @GetMapping("/logout")
     public String logoutPage(HttpServletRequest request) {
         logout(request);
-        return "redirect:/"+Pages.SERVLET_INDEX;
+        return "redirect:/" + Pages.SERVLET_INDEX;
     }
 
     private void logout(HttpServletRequest request) {

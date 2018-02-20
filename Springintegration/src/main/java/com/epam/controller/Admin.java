@@ -9,6 +9,6 @@ public class Admin {
 
     @GetMapping(value = "/admin")
     protected String adminPage() {
-       return Pages.ADMIN;
+        return Pages.ADMIN;
     }
 }

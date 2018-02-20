@@ -1,9 +1,12 @@
 package com.epam.controller;
 
 import com.epam.controller.pages.Pages;
+import com.epam.database.entity.User;
+import com.epam.service.UserService;
+import com.epam.service.UserServiceBan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletException;
@@ -12,33 +15,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Created by Serhii_Malykhin on 12/7/2016.
- */
+import static com.epam.util.StaticTransformVariable.USER_SESSION;
+
 @Controller
 public class Authorization {
-//    private UserService userService;
-//    private UserServiceBan userServiceBan;
+    @Autowired
+    private UserService userService;
 
-//    @Override
-//    public void init() throws ServletException {
-//        userServiceBan = (UserServiceBan) getServletContext().getAttribute(USER_SERVICE_BAN);
-//        userServiceBan.init(getServletContext());
-//        userService = (UserService) getServletContext().getAttribute(USER_SERVICE);
-//        userService.init(getServletContext());
-//    }
+    @Autowired
+    private UserServiceBan userServiceBan;
 
     @GetMapping("/authorization")
     protected String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-//        String page = Pages.SERVLET_INDEX;
-//        User user = (User) session.getAttribute(USER_SESSION);
-//        if (user == null) {
-//            page = Pages.ACCOUNT;
-//            request.setAttribute("error Message", "Login or password are wrong!");
-//        }
+        String page = Pages.SERVLET_INDEX;
+        User user = (User) session.getAttribute(USER_SESSION);
+        if (user == null) {
+            page = Pages.ACCOUNT;
+            request.setAttribute("error Message", "Login or password are wrong!");
+        }
 //        request.getRequestDispatcher(page).forward(request, response);
-        return Pages.REGISTRATION;
+        return page;
     }
 
     @PostMapping("/authorization")
