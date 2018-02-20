@@ -1,0 +1,36 @@
+<security>
+    <roles>
+        <role>
+            <name>visitor</name>
+            <id>-1</id>
+        </role>
+        <role>
+            <name>admin</name>
+            <id>1</id>
+        </role>
+        <role>
+            <name>user</name>
+            <id>2</id>
+        </role>
+    </roles>
+    <constraint>
+        <url-pattern>.*/showcart</url-pattern>
+        <role>1</role>
+        <role>2</role>
+    </constraint>
+    <constraint>
+        <url-pattern>.*/order</url-pattern>
+        <role>1</role>
+        <role>2</role>
+    </constraint>
+    <constraint>
+        <url-pattern>.*/confirm</url-pattern>
+        <role>1</role>
+        <role>2</role>
+    </constraint>
+
+    <constraint>
+        <url-pattern>.*/admin</url-pattern>
+        <role>1</role>
+    </constraint>
+</security>
