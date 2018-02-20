@@ -1,7 +1,14 @@
 package com.epam.bean;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.servlet.http.HttpServletRequest;
 
+@Getter
+@Setter
+@ToString
 public class BeanOrder {
     private String card;
     private String address;
@@ -15,29 +22,5 @@ public class BeanOrder {
         card = request.getParameter("card");
         address = request.getParameter("address");
         typeOfPayment = request.getParameter("typeOfPayment");
-    }
-
-    public String getCard() {
-        return card;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getTypeOfPayment() {
-        return typeOfPayment;
-    }
-
-    public void setCard(String card) {
-        this.card = card;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setTypeOfPayment(String typeOfPayment) {
-        this.typeOfPayment = typeOfPayment;
     }
 }

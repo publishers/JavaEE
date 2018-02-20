@@ -26,7 +26,7 @@ public class LoadImage {
         uploadAvatar(filePart, user.getEmail(), pathToWeb);
     }
 
-    public void uploadAvatar(Part part, String outputFileName, String pathToWeb) throws IOException {
+    private void uploadAvatar(Part part, String outputFileName, String pathToWeb) throws IOException {
         BufferedImage image = ImageIO.read(part.getInputStream());
         if (image != null) {
             try (FileOutputStream fileOutput = new FileOutputStream(get(pathToWeb, outputFileName, false))) {

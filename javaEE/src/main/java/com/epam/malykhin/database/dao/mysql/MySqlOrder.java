@@ -50,7 +50,7 @@ public class MySqlOrder implements OrderDAO {
 
     @Override
     public Order getOrderList(Connection connection, User user) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

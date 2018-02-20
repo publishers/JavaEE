@@ -12,16 +12,12 @@ import java.util.List;
 public class ManufacturerService {
     @Autowired
     private ManufacturerDAO manufacturerDAO;
-//    @Autowired
-//    private TransactionManager transactionManager;
 
     public ManufacturerDAO selectById(int id) {
-//        return (ManufacturerDAO) transactionManager.execute(connection -> manufacturerDAO.select(connection, id));
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public List<Manufacturer> selectAll() {
-//        return (List<Manufacturer>) transactionManager.execute(manufacturerDAO::selectAll);
-        return Collections.emptyList();
+        return manufacturerDAO.findAll();
     }
 }

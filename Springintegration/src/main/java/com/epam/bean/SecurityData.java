@@ -71,10 +71,7 @@ public class SecurityData {
     }
 
     public boolean checkSecurityRole(String page, User user) {
-        Iterator<Map.Entry<String, Roles>> iterator = security.entrySet().iterator();
-
-        while (iterator.hasNext()) {
-            Map.Entry<String, Roles> secure = iterator.next();
+        for (Map.Entry<String, Roles> secure : security.entrySet()) {
             int roleId = user.getRoleId();
             if (page.matches(secure.getKey()) && secure.getValue().getRoles().contains(roleId)) {
                 return true;
@@ -84,9 +81,7 @@ public class SecurityData {
     }
 
     public boolean isContainPageInSecurity(String page) {
-        Iterator<Map.Entry<String, Roles>> iterator = security.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Roles> secure = iterator.next();
+        for (Map.Entry<String, Roles> secure : security.entrySet()) {
             if (page.matches(secure.getKey())) {
                 return true;
             }
@@ -95,9 +90,7 @@ public class SecurityData {
     }
 
     public boolean isSecurityRole(User user) {
-        Iterator<Map.Entry<String, Roles>> iterator = security.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Roles> secure = iterator.next();
+        for (Map.Entry<String, Roles> secure : security.entrySet()) {
             int roleId = isNull(user) ? -1 : user.getRoleId();
             if (secure.getValue().getRoles().contains(roleId)) {
                 return true;

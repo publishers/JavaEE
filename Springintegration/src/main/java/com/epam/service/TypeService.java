@@ -1,6 +1,8 @@
 package com.epam.service;
 
+import com.epam.database.dao.TypeDAO;
 import com.epam.database.entity.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -8,17 +10,15 @@ import java.util.List;
 
 @Service
 public class TypeService {
-//    @Autowired
-//    private TypeDAO typeDAO;
+    @Autowired
+    private TypeDAO typeDAO;
 
 
     public Type select(int id) {
-//        return (Type) transactionManager.execute(connection -> typeDAO.select(connection, id));
-        return new Type();
+        throw new UnsupportedOperationException();
     }
 
     public List<Type> selectAll() {
-//        return (List<Type>) transactionManager.execute(connection -> typeDAO.selectAll(connection));
-        return Collections.emptyList();
+        return typeDAO.findAll();
     }
 }

@@ -25,7 +25,7 @@ import static java.util.Objects.isNull;
 
 public class LocaleFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(LocaleFilter.class);
-    public static final Locale DEFAULT_LOCALE = new Locale("en");
+    private static final Locale DEFAULT_LOCALE = new Locale("en");
     private EpamStorageLocale epamLocale;
     private List<Locale> locales;
 
@@ -106,7 +106,7 @@ public class LocaleFilter implements Filter {
         return null;
     }
 
-    public void setLocales(StringTokenizer tokenizerLocales) {
+    private void setLocales(StringTokenizer tokenizerLocales) {
         while (tokenizerLocales.hasMoreElements()) {
             locales.add(new Locale(tokenizerLocales.nextToken()));
         }

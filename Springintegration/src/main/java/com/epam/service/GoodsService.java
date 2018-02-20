@@ -15,26 +15,15 @@ public class GoodsService {
     @Autowired
     private GoodsDAO goodsDAO;
 
-//    @Autowired
-//    private TransactionManager transactionManager;
-
-
     public Goods selectById(Goods goods) {
-//        return (Goods) transactionManager.execute(connection -> goodsDAO.select(connection, goods));
         return new Goods();
     }
 
     public List<Goods> selectAll(BeanFilters beanFilters) {
-//        return (List<Goods>) transactionManager.execute(connection -> goodsDAO.select(connection, beanFilters));
-        return Collections.emptyList();
+        return goodsDAO.findAll();
     }
 
     public int fullNumberGoods(BeanFilters beanFilters) {
-//        return (int) transactionManager.execute(connection -> goodsDAO.getNumberGoods(connection, beanFilters));
-        return 0;
+        return (int) goodsDAO.count();
     }
-
-//    public boolean isServiceOk() {
-//        return goodsDAO != null;
-//    }
 }

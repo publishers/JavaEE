@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 import static java.util.Objects.isNull;
 
@@ -92,8 +93,7 @@ public class UserServiceBan {
     }
 
     private User selectUser(User user) {
-//        return (User) transactionManager.execute(connection -> userDAO.select(connection, user));
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     private boolean isUserExist(User user) {
@@ -101,20 +101,17 @@ public class UserServiceBan {
     }
 
     private UserBan getUserBan(UserBan user) {
-//        return (UserBan) transactionManager.execute(connection -> userBanDAO.select(connection, user));
-        return new UserBan();
+        throw new UnsupportedOperationException();
     }
 
     private User getUserByEmail(User user) {
-//        return (User) transactionManager.execute(connection -> userDAO.findByEmail(connection, user));
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     private void insertUserBan(UserBan user) {
-//        transactionManager.execute(connection -> userBanDAO.insert(connection, user));
+
     }
 
     private void updateUserBan(UserBan user) {
-//        transactionManager.execute(connection -> userBanDAO.update(connection, user));
     }
 }
