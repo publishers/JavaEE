@@ -22,7 +22,7 @@ create table manufacturer
 create table `order`
 (
   iduser int null,
-  idOrderCart int not null auto_increment,
+  idOrderCart int not null auto_increment primary key,
   date bigint not null,
   idStatus int not null,
   descriptionStatus varchar(255) not null,
@@ -83,6 +83,8 @@ create table statusOrder
   unique (status)
 )
 ;
+
+ALTER TABLE statusOrder auto_increment = 0;
 
 alter table `order`
   add constraint idStatus
