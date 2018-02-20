@@ -110,7 +110,7 @@ create table user
   secondname varchar(45) null,
   email varchar(100) null,
   password varchar(255) null,
-  newsletter int null,
+  newsletter TINYINT(1) default '0' null,
   role_id int default '2' null,
   constraint email
   unique (email),
