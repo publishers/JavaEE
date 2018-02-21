@@ -15,7 +15,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_EMAIL;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_PASSWORD;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SERVICE_BAN;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SESSION;
 
 
 @WebServlet("/authorization")

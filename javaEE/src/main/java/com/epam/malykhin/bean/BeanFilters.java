@@ -5,7 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.epam.malykhin.bean.BeanForm.getStringUtil;
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_MANUFACTURE;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_NAME;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_NUMBER_GOODS;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_PRICE_FROM;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_PRICE_TO;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_TYPE;
 
 
 public class BeanFilters {

@@ -3,7 +3,6 @@ package com.epam.malykhin.database.entity;
 import lombok.Getter;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 

@@ -4,7 +4,12 @@ import com.epam.malykhin.bean.SecurityData;
 import com.epam.malykhin.database.entity.User;
 import com.epam.malykhin.servlet.pages.Pages;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

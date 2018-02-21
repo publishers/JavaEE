@@ -5,7 +5,11 @@ import com.epam.malykhin.bean.BeanFilters;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_MANUFACTURE;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_NAME;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_PRICE_FROM;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_PRICE_TO;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FILTER_TYPE;
 
 
 public class FilterWhere {

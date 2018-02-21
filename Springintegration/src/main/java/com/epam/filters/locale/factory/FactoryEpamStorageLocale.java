@@ -3,7 +3,6 @@ package com.epam.filters.locale.factory;
 import com.epam.filters.locale.CookieEpamStorageLocale;
 import com.epam.filters.locale.EpamStorageLocale;
 import com.epam.filters.locale.SessionEpamStorageLocale;
-import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;
 

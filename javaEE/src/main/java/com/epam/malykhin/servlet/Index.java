@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.GOODS_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.MANUFACTURER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.TYPE_SERVICE;
 
 
 @WebServlet("/index")

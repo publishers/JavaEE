@@ -26,7 +26,19 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.COM_EPAM_MALYKHIN_BEAN_FORM;
+import static com.epam.malykhin.util.StaticTransformVariable.COM_EPAM_MALYKHIN_VALID_FIELDS;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_CAPTCHA;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_EMAIL;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_FIRST_NAME;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_PASSWORD;
+import static com.epam.malykhin.util.StaticTransformVariable.FORM_FIELD_SECOND_NAME;
+import static com.epam.malykhin.util.StaticTransformVariable.INCORRECT_REGISTRATION;
+import static com.epam.malykhin.util.StaticTransformVariable.MAP_CAPTCHA;
+import static com.epam.malykhin.util.StaticTransformVariable.NEWSLETTER;
+import static com.epam.malykhin.util.StaticTransformVariable.SAVER_CAPTCHA;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SESSION;
 
 
 @WebServlet("/registration")

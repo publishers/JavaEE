@@ -8,7 +8,9 @@ import com.epam.malykhin.database.entity.User;
 
 import javax.servlet.ServletContext;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.CONTEXT_LISTENER_TRANSACTION_MANAGER;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_CART_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_DAO;
 
 
 public class OrderService implements Service {

@@ -11,7 +11,9 @@ import com.epam.malykhin.database.entity.UserBan;
 import javax.servlet.ServletContext;
 import java.sql.Timestamp;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.CONTEXT_LISTENER_TRANSACTION_MANAGER;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_BAN_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_DAO;
 import static java.util.Objects.isNull;
 
 

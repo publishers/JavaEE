@@ -4,11 +4,28 @@ import com.epam.malykhin.captcha.FactoryCaptcha;
 import com.epam.malykhin.captcha.MapCaptchas;
 import com.epam.malykhin.database.JdbcConnectionHolder;
 import com.epam.malykhin.database.TransactionManager;
-import com.epam.malykhin.database.dao.*;
-import com.epam.malykhin.database.dao.mysql.*;
+import com.epam.malykhin.database.dao.GoodsDAO;
+import com.epam.malykhin.database.dao.ManufacturerDAO;
+import com.epam.malykhin.database.dao.OrderCartDAO;
+import com.epam.malykhin.database.dao.OrderDAO;
+import com.epam.malykhin.database.dao.TypeDAO;
+import com.epam.malykhin.database.dao.UserBanDAO;
+import com.epam.malykhin.database.dao.UserDAO;
+import com.epam.malykhin.database.dao.mysql.MySqlGoods;
+import com.epam.malykhin.database.dao.mysql.MySqlManufacturer;
+import com.epam.malykhin.database.dao.mysql.MySqlOrder;
+import com.epam.malykhin.database.dao.mysql.MySqlOrderCart;
+import com.epam.malykhin.database.dao.mysql.MySqlType;
+import com.epam.malykhin.database.dao.mysql.MySqlUser;
+import com.epam.malykhin.database.dao.mysql.MySqlUserBan;
 import com.epam.malykhin.filters.locale.CookieEpamStorageLocale;
 import com.epam.malykhin.filters.locale.factory.FactoryEpamStorageLocale;
-import com.epam.malykhin.service.*;
+import com.epam.malykhin.service.GoodsService;
+import com.epam.malykhin.service.ManufacturerService;
+import com.epam.malykhin.service.OrderService;
+import com.epam.malykhin.service.TypeService;
+import com.epam.malykhin.service.UserService;
+import com.epam.malykhin.service.UserServiceBan;
 import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletContext;
@@ -16,7 +33,24 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import static com.epam.malykhin.util.StaticTransformVariable.*;
+import static com.epam.malykhin.util.StaticTransformVariable.CONTEXT_LISTENER_TRANSACTION_MANAGER;
+import static com.epam.malykhin.util.StaticTransformVariable.COOKIE_MAX_AGE;
+import static com.epam.malykhin.util.StaticTransformVariable.GOODS_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.GOODS_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.MANUFACTURER_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.MANUFACTURER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.MAP_CAPTCHA;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_CART_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.ORDER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.SAVER_CAPTCHA;
+import static com.epam.malykhin.util.StaticTransformVariable.TYPE_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.TYPE_LOCALE_STORAGE;
+import static com.epam.malykhin.util.StaticTransformVariable.TYPE_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_BAN_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_DAO;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SERVICE;
+import static com.epam.malykhin.util.StaticTransformVariable.USER_SERVICE_BAN;
 
 
 @WebListener
