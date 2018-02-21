@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;
 
-@Component()
 public class FactoryEpamStorageLocale {
     private EpamStorageLocale epamStorageLocale;
 

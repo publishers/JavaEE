@@ -11,14 +11,15 @@ spring:
         maxWait: 10000
         maxIdle: 30
         maxActive: 50
-#        type: javax.sql.DataSource
         name: jdbc/shopcakes
     jpa:
         database: MYSQL
         database-platform: org.hibernate.dialect.MySQL5Dialect
         show-sql: true
         hibernate:
+#           setting checks entity and table in BD
             ddl-auto: validate
+#            need to provide meta data from entity fields
             naming:
                 implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

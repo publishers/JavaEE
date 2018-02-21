@@ -26,7 +26,13 @@ public class LocaleFilter implements Filter {
         String locales = filterConfig.getInitParameter("locales");
         StringTokenizer tokenLocale = new StringTokenizer(locales, " ");
         this.epamLocale = (EpamStorageLocale) filterConfig.getServletContext().getAttribute(TYPE_LOCALE_STORAGE);
-        setLocales(tokenLocale);
+        initLocales(tokenLocale);
+    }
+
+    private void initLocales(StringTokenizer tokenizerLocales) {
+        while (tokenizerLocales.hasMoreElements()) {
+            locales.add(new Locale(tokenizerLocales.nextToken()));
+        }
     }
 
     @Override
@@ -95,12 +101,6 @@ public class LocaleFilter implements Filter {
             }
         }
         return null;
-    }
-
-    public void setLocales(StringTokenizer tokenizerLocales) {
-        while (tokenizerLocales.hasMoreElements()) {
-            locales.add(new Locale(tokenizerLocales.nextToken()));
-        }
     }
 
     public boolean contains(Locale locale) {

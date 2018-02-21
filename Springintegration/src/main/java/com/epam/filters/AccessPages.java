@@ -35,7 +35,6 @@ public class AccessPages implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-
         String url = httpRequest.getRequestURI();
         if (!isPagesStatic(url)) {
             startNonStaticFilter(httpRequest, httpResponse, chain);
