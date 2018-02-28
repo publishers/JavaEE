@@ -19,6 +19,6 @@ public class UserService {
     }
 
     public User select(User user) {
-        return new User();
+        return userDAO.findByEmailAndPassword(user.getEmail(), user.getPassword());
     }
 }

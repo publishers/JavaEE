@@ -41,7 +41,6 @@ public class Index {
         request.setAttribute("goods", goodsList);
         request.setAttribute("fullNumberGoods", fullNumberGoods);
 
-//        request.getRequestDispatcher().forward(request, response);
         return Pages.INDEX;
     }
 

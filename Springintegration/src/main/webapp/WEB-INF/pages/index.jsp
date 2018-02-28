@@ -132,7 +132,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="about-top grid-1">
 			<div class="col-md-4 about-left">
 				<figure class="effect-bubba">
-					<img class="img-responsive" src="images/abt-1.jpg" alt=""/>
+					<img class="img-responsive" src="images/abt-1.jpg" alt="image not found"/>
 					<figcaption>
 						<h2>Nulla maximus nunc</h2>
 						<p>In sit amet sapien eros Integer dolore magna aliqua</p>
@@ -141,7 +141,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="col-md-4 about-left">
 				<figure class="effect-bubba">
-					<img class="img-responsive" src="images/abt-2.jpg" alt=""/>
+					<img class="img-responsive" src="images/abt-2.jpg" alt="image not found"/>
 					<figcaption>
 						<h4>Mauris erat augue</h4>
 						<p>In sit amet sapien eros Integer dolore magna aliqua</p>
@@ -150,7 +150,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="col-md-4 about-left">
 				<figure class="effect-bubba">
-					<img class="img-responsive" src="images/abt-3.jpg" alt=""/>
+					<img class="img-responsive" src="images/abt-3.jpg" alt="image not found"/>
 					<figcaption>
 						<h4>Cras elit mauris</h4>
 						<p>In sit amet sapien eros Integer dolore magna aliqua</p>
@@ -182,7 +182,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="col-md-3 product-left">
 						<div class="product-main simpleCart_shelfItem">
 							<a href="#" class="mask">
-								<img class="img-responsive zoom-img" src="${product.srcImg}" alt=""/>
+								<img class="img-responsive zoom-img" src="${product.srcImg}" alt="image not found"/>
 							</a>
 							<div class="product-bottom">
 								<h3>${product.title}</h3>
