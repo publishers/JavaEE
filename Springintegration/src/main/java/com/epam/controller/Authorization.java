@@ -19,7 +19,7 @@ import static com.epam.util.StaticTransformVariable.FORM_FIELD_EMAIL;
 import static com.epam.util.StaticTransformVariable.FORM_FIELD_PASSWORD;
 import static com.epam.util.StaticTransformVariable.USER_SESSION;
 
-@Controller("/authorization")
+@Controller
 public class Authorization {
     @Autowired
     private UserService userService;
@@ -27,7 +27,7 @@ public class Authorization {
     @Autowired
     private UserServiceBan userServiceBan;
 
-    @GetMapping
+    @GetMapping("/authorization")
     protected String getAuthorizationPage(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String page = Pages.SERVLET_INDEX;
@@ -39,7 +39,7 @@ public class Authorization {
         return page;
     }
 
-    @PostMapping
+    @PostMapping("/authorization")
     protected String postAuthorizationPage(@RequestBody Map<String, String> beanForm,
                                            HttpServletRequest request) {
         User user = extractUser(beanForm);
