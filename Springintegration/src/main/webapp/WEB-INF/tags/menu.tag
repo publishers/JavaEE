@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="mytag" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!--bottom-header-->
 
@@ -40,12 +41,7 @@
 			<option value="ru" ${'ru' == requestScope.lang ? 'selected' : ''}>Russian</option>
 		</select>
 	</div>
-	<c:if test="${not empty sessionScope.user}">
-		<div class="userAvatar">
-			<mytag:avatar/>
-				${sessionScope.user.firstName}
-		</div>
-	</c:if>
+	<mytag:avatar/>
 	<div class="container">
 		<div class="header">
 			<div class="breadcrumbs">
@@ -64,7 +60,7 @@
 						<c:if test="${empty sessionScope.user}">
 							<li class="grid"><a href="<c:url value="/registration"/>">
 								<fmt:message key="registration"/></a></li>
-							<li class="grid"><a href="<c:url value="/authorization"/>">
+							<li class="grid"><a href="<c:url value="/login"/>">
 								<fmt:message key="login"/></a></li>
 						</c:if>
 						<c:if test="${not empty sessionScope.user}">

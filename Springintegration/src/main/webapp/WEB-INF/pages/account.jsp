@@ -44,7 +44,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="account-main">
 			<div class="col-md-6 account-left">
 				<h3>Existing User</h3>
-				<form action="<c:url value="/authorization"/>" method="post">
+				<c:if test="${not empty param.errorMessage}">
+                	<c:out value="${param.errorMessage}"/>
+                </c:if>
+				<form action="<c:url value="/login"/>" method="post">
 					<div class="account-bottom">
 						<input placeholder="Email" name="email" type="text" tabindex="3" required>
 						<input placeholder="Password" name="password" type="password" tabindex="4" required>

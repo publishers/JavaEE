@@ -10,8 +10,8 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    public User selectUserByEmail(User user) {
-        throw new UnsupportedOperationException();
+    public User selectUserByEmail(String email) {
+        return userDAO.findByEmail(email);
     }
 
     public boolean insert(User user) {

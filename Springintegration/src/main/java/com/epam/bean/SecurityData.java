@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Objects.isNull;
-
 
 public class SecurityData {
     private static final String CONSTRAINT = "constraint";
@@ -82,16 +80,6 @@ public class SecurityData {
     public boolean isContainPageInSecurity(String page) {
         for (Map.Entry<String, Roles> secure : security.entrySet()) {
             if (page.matches(secure.getKey())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isSecurityRole(User user) {
-        for (Map.Entry<String, Roles> secure : security.entrySet()) {
-            int roleId = isNull(user) ? -1 : user.getRoleId();
-            if (secure.getValue().getRoles().contains(roleId)) {
                 return true;
             }
         }

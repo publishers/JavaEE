@@ -76,7 +76,7 @@ public class Registration {
         if (validatorForm.isValidForm() && isValidCaptcha(request, beanForm)) {
             User user = extractUser(beanForm);
             try {
-                if (userService.selectUserByEmail(user) == null) {
+                if (userService.selectUserByEmail(user.getEmail()) == null) {
                     if (userService.insert(user)) {
                         loadImage.executor(request, user);
                         response.encodeRedirectURL(Pages.SERVLET_ACCOUNT);
