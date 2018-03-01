@@ -24,8 +24,8 @@ public class UserServiceBan {
 
     public boolean isUserBan(User user) {
         boolean result = true;
-        User tempUser;
-        if (isUserExist(tempUser = getUserByEmail(user))) {
+        User tempUser = user;
+        if (isUserExist(tempUser /*= getUserByEmail(user)*/)) {
             UserBan userBan = getUserBan(tempUser);
             userBan = isUserBanExist(tempUser, userBan);
             result = checkUserBan(tempUser, userBan, user);

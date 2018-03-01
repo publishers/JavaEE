@@ -1,6 +1,5 @@
 package com.epam.controller;
 
-import com.epam.bean.BeanForm;
 import com.epam.controller.pages.Pages;
 import com.epam.database.entity.User;
 import com.epam.service.UserService;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,7 +38,7 @@ public class Authorization {
     }
 
     @PostMapping("/authorization")
-    protected String postAuthorizationPage(@RequestBody Map<String, String> beanForm,
+    protected String postAuthorizationPage(Map<String, String> beanForm,
                                            HttpServletRequest request) {
         User user = extractUser(beanForm);
         if (!userServiceBan.isUserBan(user) && (user = userService.select(user)) != null) {
