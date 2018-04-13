@@ -14,6 +14,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
+        <hibernate.version>5.2.16.Final</hibernate.version>
         <mysql-connector-java.version>5.1.45</mysql-connector-java.version>
     </properties>
 
@@ -54,6 +55,12 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-solr -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
         </dependency>
 
 

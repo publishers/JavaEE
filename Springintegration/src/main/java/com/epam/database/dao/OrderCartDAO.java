@@ -1,5 +1,7 @@
 package com.epam.database.dao;
 
-//@Repository
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface OrderCartDAO {
 }
