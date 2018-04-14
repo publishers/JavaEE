@@ -2,6 +2,7 @@ package com.epam.filters;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,7 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final String[] staticResources = {"/css/**", "/js/**", "/images/**", "/fonts/**", "/index"};
+    @Value("${web.security.static.resources}")
+    private String[] staticSecurityResources;
 
     @Autowired
     @Qualifier("customUserDetailsService")
@@ -27,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(staticResources).permitAll()
+                .antMatchers(staticSecurityResources).permitAll()
                 .antMatchers("/login/**").not().authenticated()
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 //                .expressionHandler(expressionHandler)
