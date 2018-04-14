@@ -53,7 +53,7 @@ public class GoodsService {
 
     private Specification<Goods> buildSpecification(List<SearchCriteria> criteria) {
         Specification<Goods> spec = null;
-        if(criteria.size() > 0) {
+        if (criteria.size() > 0) {
             spec = specification(criteria.get(0));
             for (int i = 1; i < criteria.size(); i++) {
                 spec = Specifications.where(spec).and(specification(criteria.get(i)));
@@ -86,9 +86,9 @@ public class GoodsService {
         return searchCriteria;
     }
 
-    private Specification<Goods> specification(SearchCriteria searchCriteria){
+    private Specification<Goods> specification(SearchCriteria searchCriteria) {
         return (root, query, builder) -> {
-            if(searchCriteria != null) {
+            if (searchCriteria != null) {
                 if (searchCriteria.getFieldName().equals("idManufacture")) {
                     return builder.equal(root.get(searchCriteria.getFieldName()), searchCriteria.getValue());
                 }

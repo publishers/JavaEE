@@ -17,10 +17,10 @@ public class BeanFilterValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         BeanFilter filter = (BeanFilter) target;
-        if(StringUtils.isEmpty(filter.getCurrentPage())){
+        if (StringUtils.isEmpty(filter.getCurrentPage())) {
             filter.setCurrentPage("0");
         }
-        if(StringUtils.isEmpty(filter.getNumberGoods())){
+        if (StringUtils.isEmpty(filter.getNumberGoods())) {
             filter.setNumberGoods("8");
         }
 

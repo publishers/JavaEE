@@ -12,11 +12,11 @@ public class RoleService {
     @Autowired
     private RoleDAO roleDAO;
 
-    public Role findRoleById(int id){
+    public Role findRoleById(int id) {
         return roleDAO.findOne(id);
     }
 
-    public List<Role> findAll(){
+    public List<Role> findAll() {
         return roleDAO.findAll();
     }
 }

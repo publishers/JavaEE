@@ -15,7 +15,7 @@
 
         var namespace = slider.vars.namespace,
             msGesture = window.navigator && window.navigator.msPointerEnabled && window.MSGesture,
-            touch = (( "ontouchstart" in window ) || msGesture || window.DocumentTouch && document instanceof DocumentTouch) && slider.vars.touch,
+            touch = (("ontouchstart" in window) || msGesture || window.DocumentTouch && document instanceof DocumentTouch) && slider.vars.touch,
             // depricating this idea, as devices are being released with both of these events
             //eventType = (touch) ? "touchend" : "click",
             eventType = "click touchend MSPointerUp keyup",
@@ -37,7 +37,7 @@
             init: function () {
                 slider.animating = false;
                 // Get current slide and make sure it is a number
-                slider.currentSlide = parseInt(( slider.vars.startAt ? slider.vars.startAt : 0), 10);
+                slider.currentSlide = parseInt((slider.vars.startAt ? slider.vars.startAt : 0), 10);
                 if (isNaN(slider.currentSlide)) {
                     slider.currentSlide = 0;
                 }
@@ -63,17 +63,17 @@
                 slider.startTimeout = null;
                 // TOUCH/USECSS:
                 slider.transitions = !slider.vars.video && !fade && slider.vars.useCSS && (function () {
-                        var obj = document.createElement('div'),
-                            props = ['perspectiveProperty', 'WebkitPerspective', 'MozPerspective', 'OPerspective', 'msPerspective'];
-                        for (var i in props) {
-                            if (obj.style[props[i]] !== undefined) {
-                                slider.pfx = props[i].replace('Perspective', '').toLowerCase();
-                                slider.prop = "-" + slider.pfx + "-transform";
-                                return true;
-                            }
+                    var obj = document.createElement('div'),
+                        props = ['perspectiveProperty', 'WebkitPerspective', 'MozPerspective', 'OPerspective', 'msPerspective'];
+                    for (var i in props) {
+                        if (obj.style[props[i]] !== undefined) {
+                            slider.pfx = props[i].replace('Perspective', '').toLowerCase();
+                            slider.prop = "-" + slider.pfx + "-transform";
+                            return true;
                         }
-                        return false;
-                    }());
+                    }
+                    return false;
+                }());
                 slider.ensureAnimationEnd = '';
                 // CONTROLSCONTAINER:
                 if (slider.vars.controlsContainer !== "") slider.controlsContainer = $(slider.vars.controlsContainer).length > 0 && $(slider.vars.controlsContainer);
@@ -434,7 +434,7 @@
                     onTouchStart = function (e) {
                         if (slider.animating) {
                             e.preventDefault();
-                        } else if (( window.navigator.msPointerEnabled ) || e.touches.length === 1) {
+                        } else if ((window.navigator.msPointerEnabled) || e.touches.length === 1) {
                             slider.pause();
                             // CAROUSEL:
                             cwidth = (vertical) ? slider.h : slider.w;
@@ -1085,7 +1085,7 @@
                         (slider.vars.itemWidth > slider.w) ? slider.w : slider.vars.itemWidth;
 
                 slider.visible = Math.floor(slider.w / (slider.itemW));
-                slider.move = (slider.vars.move > 0 && slider.vars.move < slider.visible ) ? slider.vars.move : slider.visible;
+                slider.move = (slider.vars.move > 0 && slider.vars.move < slider.visible) ? slider.vars.move : slider.visible;
                 slider.pagingCount = Math.ceil(((slider.count - slider.visible) / slider.move) + 1);
                 slider.last = slider.pagingCount - 1;
                 slider.limit = (slider.pagingCount === 1) ? 0 :
@@ -1277,7 +1277,7 @@
                     selector = (options.selector) ? options.selector : ".slides > li",
                     $slides = $this.find(selector);
 
-                if (( $slides.length === 1 && options.allowOneSlide === true ) || $slides.length === 0) {
+                if (($slides.length === 1 && options.allowOneSlide === true) || $slides.length === 0) {
                     $slides.fadeIn(400);
                     if (options.start) {
                         options.start($this);

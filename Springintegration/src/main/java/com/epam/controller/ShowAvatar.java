@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,7 +27,7 @@ public class ShowAvatar {
     protected void userAvatar(HttpServletResponse response) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User user = (User)authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         if (user == null) {
             response.sendError(404, "Avatar Not found");
             return;
