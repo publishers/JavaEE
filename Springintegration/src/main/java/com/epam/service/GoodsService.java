@@ -35,7 +35,7 @@ public class GoodsService {
         int page = extractInt("currentPage", criteria);
         Direction direction = extractDirection(criteria);
         updateListCriteria(criteria);
-        return new PageRequest(page - 1 < 0 ? 0 : page - 1, size);
+        return new PageRequest(page - 1 < 0 ? 0 : page - 1, size, direction, "price");
     }
 
     private int extractInt(String fieldName, List<SearchCriteria> searchCriteria) {
@@ -61,7 +61,7 @@ public class GoodsService {
         searchCriteria.retainAll(updatedListCriteria);
     }
 
-    private SearchCriteria findCriteria(String fieldName, List<SearchCriteria> searchCriteria){
+    private SearchCriteria findCriteria(String fieldName, List<SearchCriteria> searchCriteria) {
         return searchCriteria.stream()
                 .filter(criteria -> criteria.getFieldName().equals(fieldName))
                 .findFirst()

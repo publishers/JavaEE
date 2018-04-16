@@ -5,33 +5,51 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class FilterValidator {
     private static final Logger LOG = LoggerFactory.getLogger(FilterValidator.class);
-    private static final String DIGIT_REGEX = "[1-9]{1}\\d{0,}";
+    private static final List<String> FILTER_FIELDS = Arrays.asList("title", "idType", "idManufacture", "priceFrom",
+            "priceTo", "numberGoods", "currentPage", "sortBy");
+
+    private static final String DIGIT_REGEX = "\\d{1,}";
 
     public void validate(Map<String, String> filterParameters) {
-        if (StringUtils.isEmpty(filterParameters.get("currentPage"))) {
-            filterParameters.put("currentPage", "0");
-        }
-        if (StringUtils.isEmpty(filterParameters.get("numberGoods"))) {
-            filterParameters.put("numberGoods", "8");
-        }
-        checkAllParameters(filterParameters);
+        initDefaultParams(filterParameters);
+        Map<String, String> filteredParams = filterParameters.entrySet().stream()
+                .filter(s -> FILTER_FIELDS.contains(s.getKey()) && !StringUtils.isEmpty(s.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        filterParameters.entrySet().retainAll(filteredParams.entrySet());
+        checkParameters(filterParameters);
     }
 
-    private void checkAllParameters(Map<String, String> filters) {
-        String numberGoods = filters.get("numberGoods");
-        String currentPage = filters.get("currentPage");
-        checkDigit(numberGoods, "numberGoods");
-        checkDigit(currentPage, "currentPage");
+    private void initDefaultParams(Map<String, String> filterParameters) {
+        if (StringUtils.isEmpty(filterParameters.get(FILTER_FIELDS.get(5)))) {
+            filterParameters.put(FILTER_FIELDS.get(5), "8");
+        }
+        if (StringUtils.isEmpty(filterParameters.get(FILTER_FIELDS.get(6)))) {
+            filterParameters.put(FILTER_FIELDS.get(6), "0");
+        }
     }
 
-    private void checkDigit(String digitValue, String fieldName) {
-        if (!digitValue.matches(DIGIT_REGEX)) {
+    private void checkParameters(Map<String, String> filters) {
+        String numberGoods = filters.get(FILTER_FIELDS.get(5));
+        String currentPage = filters.get(FILTER_FIELDS.get(6));
+        if (!isDigit(numberGoods, FILTER_FIELDS.get(5)) || !isDigit(currentPage, FILTER_FIELDS.get(6))) {
+            filters.put(FILTER_FIELDS.get(6), "0");
+            filters.put(FILTER_FIELDS.get(5), "8");
+        }
+    }
+
+    private boolean isDigit(String digitValue, String fieldName) {
+        boolean result;
+        if (!(result = digitValue.matches(DIGIT_REGEX))) {
             LOG.info("fieldName: " + fieldName + " must be a digit, but it's: " + digitValue);
         }
+        return result;
     }
 }

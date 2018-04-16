@@ -9,10 +9,10 @@ import com.epam.service.ManufacturerService;
 import com.epam.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,26 +31,29 @@ public class Index {
 
 
     @GetMapping("/index")
-    protected String homeController(@RequestParam(required = false) Map<String, String> filter, HttpServletRequest request) {
+    protected String homeController(@RequestParam(required = false) Map<String, String> filter, Model model) {
         filterValidator.validate(filter);
-        String queryString = clearQueryString(request.getQueryString());
-        request.setAttribute("queryString", queryString);
-        request.setAttribute("typeSelectAll", typeService.selectAll());
-        request.setAttribute("manufacturerSelectAll", manufacturerService.selectAll());
+        String queryString = clearQueryString(filter);
+        model.addAttribute("queryString", queryString);
+        model.addAttribute("typeSelectAll", typeService.selectAll());
+        model.addAttribute("manufacturerSelectAll", manufacturerService.selectAll());
 
         List<SearchCriteria> searchCriteria = buildSearchCriteria(filter);
         List<Goods> goodsList = goodsService.selectAllForPage(searchCriteria);
         long fullNumberGoods = goodsService.countGoods(searchCriteria);
 
-        request.setAttribute("goods", goodsList);
-        request.setAttribute("fullNumberGoods", fullNumberGoods);
+        model.addAttribute("goods", goodsList);
+        model.addAttribute("fullNumberGoods", fullNumberGoods);
 
         return Pages.INDEX;
     }
 
-    private String clearQueryString(String queryString) {
-        queryString = queryString == null ? "" : queryString;
-        return queryString.replaceFirst("currentPage=\\d+&", "");
+    private String clearQueryString(Map<String, String> params) {
+        String query = params.entrySet().stream()
+                .map(stringStringEntry -> stringStringEntry.getKey() + "=" + stringStringEntry.getValue() + "&")
+                .collect(Collectors.joining());
+        return query.replaceAll("currentPage=\\d+&", "");
+
     }
 
     private List<SearchCriteria> buildSearchCriteria(Map<String, String> filter) {
