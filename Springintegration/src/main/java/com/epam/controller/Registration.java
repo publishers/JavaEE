@@ -1,7 +1,6 @@
 package com.epam.controller;
 
 import com.epam.bean.BeanForm;
-import com.epam.bean.validation.ValidatorForm;
 import com.epam.captcha.EpamCaptcha;
 import com.epam.captcha.MapCaptchas;
 import com.epam.captcha.save.Captcha;
@@ -12,23 +11,27 @@ import com.epam.io.LoadImage;
 import com.epam.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 
-import static com.epam.util.StaticTransformVariable.COM_EPAM_MALYKHIN_BEAN_FORM;
-import static com.epam.util.StaticTransformVariable.COM_EPAM_MALYKHIN_VALID_FIELDS;
 import static com.epam.util.StaticTransformVariable.FORM_FIELD_CAPTCHA;
 import static com.epam.util.StaticTransformVariable.FORM_FIELD_EMAIL;
 import static com.epam.util.StaticTransformVariable.FORM_FIELD_FIRST_NAME;
@@ -41,7 +44,7 @@ import static com.epam.util.StaticTransformVariable.SAVER_CAPTCHA;
 import static com.epam.util.StaticTransformVariable.USER_SESSION;
 
 
-@WebServlet("/registration")
+@Controller
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10,      // 10MB
         maxRequestSize = 1024 * 1024 * 50)// 50MB
@@ -49,76 +52,39 @@ public class Registration {
     private static final Logger LOG = Logger.getLogger(Registration.class);
     @Autowired
     private UserService userService;
+
     @Autowired
     private LoadImage loadImage;
 
+    @Autowired
+    @Qualifier("registrationFormValidator")
+    private Validator filterValidator;
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(filterValidator);
+    }
+
     @GetMapping("/registration")
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isUserSessionExist(request)) {
-            response.sendRedirect(Pages.INDEX);
-            return;
+            return "redirect:/" + Pages.INDEX;
         }
-        resetRegistrationData(request);
         createNewCaptcha(request, response);
-
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/" + Pages.REGISTRATION);
-        requestDispatcher.forward(request, response);
-    }
-
-    @PostMapping("/registration")
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BeanForm beanForm = getBeanForm(request);
-        ValidatorForm validatorForm = getValidatorForm(beanForm);
-        validatorForm.startValidation();
-        request.getSession().setAttribute(COM_EPAM_MALYKHIN_BEAN_FORM, beanForm);
-        request.getSession().setAttribute(COM_EPAM_MALYKHIN_VALID_FIELDS, validatorForm);
-
-        if (validatorForm.isValidForm() && isValidCaptcha(request, beanForm)) {
-            User user = extractUser(beanForm);
-            try {
-                if (userService.selectUserByEmail(user.getEmail()) == null) {
-                    if (userService.insert(user)) {
-                        loadImage.executor(request, user);
-                        response.encodeRedirectURL(Pages.SERVLET_ACCOUNT);
-                        response.sendRedirect(Pages.SERVLET_ACCOUNT);
-                        return;
-                    }
-                } else {
-                    request.getSession().setAttribute(INCORRECT_REGISTRATION, "This email is registered");
-                }
-            } catch (BusinessException ex) {
-                LOG.warn("Something was wrong: \n" + ex);
-            }
-        }
-        response.sendRedirect(request.getRequestURI());
-    }
-
-    private boolean isUserSessionExist(HttpServletRequest request) {
-        boolean result = false;
-        HttpSession sessionUser = request.getSession();
-        if (sessionUser.getAttribute(USER_SESSION) != null) {
-            result = true;
-        }
-        return result;
+        return Pages.REGISTRATION;
     }
 
     private void createNewCaptcha(HttpServletRequest request, HttpServletResponse response) {
-        Captcha captcha = getCaptcha(request);
+        ServletContext context = request.getServletContext();
+        Captcha captcha = getCaptcha(context);
         captcha.setRequest(request);
         captcha.setResponse(response);
 
         Integer newCaptcha = new Random().nextInt(1000000);
-        captcha.save(saveCaptcha(request, newCaptcha));
+        captcha.save(saveCaptcha(context, newCaptcha));
     }
 
-    private Captcha getCaptcha(HttpServletRequest request) {
-        ServletContext servletContext = request.getServletContext();
-        Object obj = servletContext.getAttribute(SAVER_CAPTCHA);
-        return (com.epam.captcha.save.Captcha) obj;
-    }
-
-    private int saveCaptcha(HttpServletRequest request, Integer token) {
-        ServletContext application = request.getServletContext();
+    private int saveCaptcha(ServletContext application, Integer token) {
         Object obj = application.getAttribute(MAP_CAPTCHA);
         MapCaptchas mapCaptchas = null;
         if (obj instanceof MapCaptchas) {
@@ -130,9 +96,47 @@ public class Registration {
         return -1;
     }
 
+    @PostMapping("/registration")
+    protected String doPost(@RequestAttribute @Valid BeanForm beanForm,
+                            BindingResult result,
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws ServletException, IOException {
+        String redirectPage = request.getRequestURI();
+        if (result.hasErrors() && isValidCaptcha(request, beanForm)) {
+            User user = extractUser(beanForm);
+            try {
+                if (userService.selectUserByEmail(user.getEmail()) == null) {
+                    if (userService.insert(user)) {
+                        loadImage.executor(request, user);
+                        response.encodeRedirectURL(Pages.SERVLET_ACCOUNT);
+                        redirectPage = Pages.SERVLET_ACCOUNT;
+                    }
+                } else {
+                    request.getSession().setAttribute(INCORRECT_REGISTRATION, "This email is registered");
+                }
+            } catch (BusinessException ex) {
+                LOG.warn("Something was wrong: \n" + ex);
+            }
+        }
+        return redirectPage;
+    }
+
+    private boolean isUserSessionExist(HttpServletRequest request) {
+        boolean result = false;
+        HttpSession sessionUser = request.getSession();
+        if (sessionUser.getAttribute(USER_SESSION) != null) {
+            result = true;
+        }
+        return result;
+    }
+
+    private Captcha getCaptcha(ServletContext servletContext) {
+        return (Captcha) servletContext.getAttribute(SAVER_CAPTCHA);
+    }
+
     private boolean isValidCaptcha(HttpServletRequest request, BeanForm beanForm) {
         boolean result = false;
-        Captcha captcha = getCaptcha(request);
+        Captcha captcha = getCaptcha(request.getServletContext());
         captcha.setRequest(request);
 
         EpamCaptcha epamCaptcha = captcha.getCaptchaById();
@@ -146,46 +150,18 @@ public class Registration {
     }
 
     private int getUserAnswerCaptcha(BeanForm beanForm) {
-        return Integer.parseInt(beanForm.getBeans().get(FORM_FIELD_CAPTCHA));
+        return Integer.parseInt(beanForm.getCaptcha());
     }
 
     private User extractUser(BeanForm beanForm) {
         User user = new User();
-        Map<String, String> tmpBeanForm = beanForm.getBeans();
-        user.setFirstName(tmpBeanForm.get(FORM_FIELD_FIRST_NAME));
-        user.setSecondName(tmpBeanForm.get(FORM_FIELD_SECOND_NAME));
-        user.setEmail(tmpBeanForm.get(FORM_FIELD_EMAIL));
-        user.setPassword(tmpBeanForm.get(FORM_FIELD_PASSWORD));
-        boolean newsletter = tmpBeanForm.get(NEWSLETTER).equals("on");
+        user.setFirstName(beanForm.getFirstName());
+        user.setSecondName(beanForm.getSecondName());
+        user.setEmail(beanForm.getEmail());
+        user.setPassword(beanForm.getPassword());
+        boolean newsletter = beanForm.getNewletter().equals("on");
         user.setNewsletter(newsletter);
         return user;
     }
 
-    private ValidatorForm getValidatorForm(BeanForm beanForm) {
-        return new ValidatorForm(beanForm);
-    }
-
-    private BeanForm getBeanForm(HttpServletRequest request) {
-        return new BeanForm(request);
-    }
-
-    private void resetRegistrationData(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        resetAttributesSessionRequestToRequestScope(request);
-        removeAttributesFromSession(session);
-    }
-
-    private void resetAttributesSessionRequestToRequestScope(HttpServletRequest request) {
-        HttpSession sesion = request.getSession();
-        request.setAttribute(INCORRECT_REGISTRATION, sesion.getAttribute(INCORRECT_REGISTRATION));
-        request.setAttribute(COM_EPAM_MALYKHIN_BEAN_FORM, sesion.getAttribute(COM_EPAM_MALYKHIN_BEAN_FORM));
-        request.setAttribute(COM_EPAM_MALYKHIN_VALID_FIELDS, sesion.getAttribute(COM_EPAM_MALYKHIN_VALID_FIELDS));
-        request.setAttribute("captchaValid", sesion.getAttribute("captchaValid"));
-    }
-
-    private void removeAttributesFromSession(HttpSession session) {
-        session.removeAttribute(INCORRECT_REGISTRATION);
-        session.removeAttribute(COM_EPAM_MALYKHIN_BEAN_FORM);
-        session.removeAttribute(COM_EPAM_MALYKHIN_VALID_FIELDS);
-    }
 }

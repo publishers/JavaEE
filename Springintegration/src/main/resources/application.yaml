@@ -30,4 +30,13 @@ spring:
 web:
     security:
         static:
-            resources: /css/**, /js/**, /images/**, /fonts/**, /index
+            resources: /css/**, /js/**, /images/**, /fonts/**, /index, /registration, /captcha
+        page:
+            index: /index
+            admin: /admin/**
+            login: /login/**
+    login:
+        page: /login
+        params:
+            username: email
+            password: password

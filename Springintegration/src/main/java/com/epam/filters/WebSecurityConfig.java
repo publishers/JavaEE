@@ -17,12 +17,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${web.security.static.resources}")
     private String[] staticSecurityResources;
 
+    @Value("${web.login.page}")
+    private String login;
+
+    @Value("${web.login.params.username}")
+    private String username;
+
+    @Value("${web.login.params.password}")
+    private String password;
+
+    @Value("${web.security.page.login}")
+    private String loginPage;
+
+    @Value("${web.security.page.admin}")
+    private String adminPage;
+
+    @Value("${web.security.page.index}")
+    private String defaultIndexPage;
+
     @Autowired
     @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
-
-//    @Autowired
-//    private SecurityExpressionHandler<FilterInvocation> expressionHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,23 +45,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(staticSecurityResources).permitAll()
-                .antMatchers("/login/**").not().authenticated()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-//                .expressionHandler(expressionHandler)
+                .antMatchers(loginPage).not().authenticated()
+                .antMatchers(adminPage).access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .successHandler((req, res, auth) -> res.sendRedirect("/index"))
-                .defaultSuccessUrl("/index")
+                .loginPage(login)
+                .usernameParameter(username)
+                .passwordParameter(password)
+                .successHandler((req, res, auth) -> res.sendRedirect(defaultIndexPage))
+                .defaultSuccessUrl(defaultIndexPage)
                 .failureHandler((req, res, exp) -> {
                     String errMsg = "Unknown error - " + exp.getMessage();
                     if (exp.getClass().isAssignableFrom(BadCredentialsException.class)) {
                         errMsg = "Invalid username or password.";
                     }
-                    res.sendRedirect("/login?errorMessage=" + errMsg);
+                    res.sendRedirect(login + "?errorMessage=" + errMsg);
                 })
                 .permitAll();
     }

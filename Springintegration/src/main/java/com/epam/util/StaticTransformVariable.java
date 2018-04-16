@@ -25,8 +25,8 @@ public class StaticTransformVariable {
             ORDER_CART_DAO = "orderCartDAO",
             MAP_CAPTCHA = "mapCaptcha",
             USER_SESSION = "user",
-            COM_EPAM_MALYKHIN_BEAN_FORM = "comEpamMalykhinBeanForm",
-            COM_EPAM_MALYKHIN_VALID_FIELDS = "comEpamMalykhinValidFields",
+            COM_BEAN_FORM = "comBeanForm",
+            COM_VALID_FIELDS = "comValidFields",
             INCORRECT_REGISTRATION = "incorrectRegistration";
     public static final String
             FORM_FIELD_FIRST_NAME = "firstName",

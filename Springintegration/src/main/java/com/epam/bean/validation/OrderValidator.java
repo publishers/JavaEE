@@ -3,13 +3,13 @@ package com.epam.bean.validation;
 import com.epam.bean.BeanOrder;
 
 
-public class ValidatorOrder {
+public class OrderValidator {
     private static final String CARD = "^((\\d{16})|(\\d{4} \\d{4} \\d{4} \\d{4}))$";
     private static final String ADDRESS = "^.{5,}$";
     private boolean isValidOrder = true;
     private BeanOrder beanOrder;
 
-    public ValidatorOrder(BeanOrder beanOrder) {
+    public OrderValidator(BeanOrder beanOrder) {
         this.beanOrder = beanOrder;
     }
 

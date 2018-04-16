@@ -15,50 +15,45 @@
  */
 package com.epam.controller;
 
+import com.epam.captcha.MapCaptchas;
+import com.epam.captcha.save.Captcha;
 import com.github.cage.Cage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.epam.captcha.save.Captcha.MAP_CAPTCHA;
+import static com.epam.util.StaticTransformVariable.SAVER_CAPTCHA;
+
 @Controller
-public class Captcha {
-    private static final Cage cage = new Cage();
+public class CaptchaController {
+    private static final Cage CAGE = new Cage();
 
     @GetMapping("/captcha")
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(ServletContext servletContext, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer token = getTokenCaptcha(request);
-//        if (token == null) {
-//            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-//                    "Captcha not found.");
-//            return;
-//        }
-
+        Integer token = getTokenCaptcha(servletContext);
         setResponseHeaders(response);
-        cage.draw(token.toString(), response.getOutputStream());
+        CAGE.draw(token.toString(), response.getOutputStream());
     }
 
-    private Integer getTokenCaptcha(HttpServletRequest request) {
-        ServletContext servletContext = request.getServletContext();
-//        com.epam.captcha.save.Captcha captcha =
-//                (com.epam.captcha.save.Captcha) servletContext.getAttribute(SAVER_CAPTCHA);
-//        captcha.setRequest(request);
-//        MapCaptchas mapCaptchas = (MapCaptchas) servletContext.getAttribute(MAP_CAPTCHA);
-//        if (mapCaptchas == null) return null;
-//        Integer val = captcha.getIdCaptcha();
-//        return val == null ? null :
-//                mapCaptchas.getCaptchaById(val) != null ?
-//                        mapCaptchas.getCaptchaById(val).getCaptcha() : null;
-        return 235434;
+    private Integer getTokenCaptcha(ServletContext servletContext) {
+        Captcha captcha = (Captcha) servletContext.getAttribute(SAVER_CAPTCHA);
+        MapCaptchas mapCaptchas = (MapCaptchas) servletContext.getAttribute(MAP_CAPTCHA);
+        if (mapCaptchas == null) {
+            return null;
+        }
+        Integer val = captcha.getIdCaptcha();
+        return val != null ? (mapCaptchas.getCaptchaById(val) != null ?
+                mapCaptchas.getCaptchaById(val).getCaptcha() : -1) : -1;
     }
 
     private void setResponseHeaders(HttpServletResponse response) {
-        response.setContentType("image/" + cage.getFormat());
+        response.setContentType("image/" + CAGE.getFormat());
         response.setHeader("Cache-Control", "no-cache, no-store");
         response.setHeader("Pragma", "no-cache");
         long time = System.currentTimeMillis();
