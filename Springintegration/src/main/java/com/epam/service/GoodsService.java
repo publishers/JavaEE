@@ -1,22 +1,21 @@
 package com.epam.service;
 
-import com.epam.bean.BeanFilter;
 import com.epam.database.dao.GoodsDAO;
 import com.epam.database.entity.Goods;
 import com.epam.database.search.SearchCriteria;
 import org.apache.solr.common.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GoodsService {
-    private static final int DEFAULT_GOODS_SIZE = 10;
 
     @Autowired
     private GoodsDAO goodsDAO;
@@ -25,28 +24,52 @@ public class GoodsService {
         return goodsDAO.findOne(goods.getId());
     }
 
-    public List<Goods> selectAllForPage(BeanFilter beanFilter) {
-        int size = DEFAULT_GOODS_SIZE;
-        int page = 0;
-        if (isNumber(beanFilter.getNumberGoods())) {
-            size = Integer.parseInt(beanFilter.getNumberGoods());
-        }
-        if (isNumber(beanFilter.getCurrentPage())) {
-            page = Integer.parseInt(beanFilter.getCurrentPage());
-            page--;
-        }
-
-        List<SearchCriteria> criteria = buildSearchCriteria(beanFilter);
+    public List<Goods> selectAllForPage(List<SearchCriteria> criteria) {
+        PageRequest pageRequest = buildPageRequest(criteria);
         Specification<Goods> spec = buildSpecification(criteria);
-        return goodsDAO.findAll(spec, new PageRequest(page, size)).getContent();
+        return goodsDAO.findAll(spec, pageRequest).getContent();
     }
 
-    private boolean isNumber(String number) {
-        return number != null && !number.trim().equals("") && (Integer.parseInt(number) > 0);
+    private PageRequest buildPageRequest(List<SearchCriteria> criteria) {
+        int size = extractInt("numberGoods", criteria);
+        int page = extractInt("currentPage", criteria);
+        Direction direction = extractDirection(criteria);
+        updateListCriteria(criteria);
+        return new PageRequest(page - 1 < 0 ? 0 : page - 1, size);
     }
 
-    public long countGoods(BeanFilter beanFilter) {
-        List<SearchCriteria> criteria = buildSearchCriteria(beanFilter);
+    private int extractInt(String fieldName, List<SearchCriteria> searchCriteria) {
+        SearchCriteria criteria = findCriteria(fieldName, searchCriteria);
+        return Integer.parseInt(criteria.getValue());
+    }
+
+    private Direction extractDirection(List<SearchCriteria> searchCriteria) {
+        SearchCriteria criteria = findCriteria("sortBy", searchCriteria);
+        return criteria == null || criteria.getValue().equals("+") ? Direction.ASC : Direction.DESC;
+    }
+
+    private void updateListCriteria(List<SearchCriteria> criteria) {
+        updateListCriteria("numberGoods", criteria);
+        updateListCriteria("currentPage", criteria);
+        updateListCriteria("sortBy", criteria);
+    }
+
+    private void updateListCriteria(String fieldName, List<SearchCriteria> searchCriteria) {
+        List<SearchCriteria> updatedListCriteria = searchCriteria.stream()
+                .filter(criteria -> !criteria.getFieldName().equals(fieldName))
+                .collect(Collectors.toList());
+        searchCriteria.retainAll(updatedListCriteria);
+    }
+
+    private SearchCriteria findCriteria(String fieldName, List<SearchCriteria> searchCriteria){
+        return searchCriteria.stream()
+                .filter(criteria -> criteria.getFieldName().equals(fieldName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public long countGoods(List<SearchCriteria> criteria) {
+        updateListCriteria(criteria);
         Specification<Goods> spec = buildSpecification(criteria);
         return goodsDAO.count(spec);
     }
@@ -62,53 +85,24 @@ public class GoodsService {
         return spec;
     }
 
-    private List<SearchCriteria> buildSearchCriteria(BeanFilter beanFilter) {
-        List<SearchCriteria> searchCriteria = new ArrayList<>();
-        if (!StringUtils.isEmpty(beanFilter.getIdManufacture())) {
-            searchCriteria.add(new SearchCriteria("idManufacture", beanFilter.getIdManufacture()));
-        }
-
-        if (!StringUtils.isEmpty(beanFilter.getIdType())) {
-            searchCriteria.add(new SearchCriteria("idType", beanFilter.getIdType()));
-        }
-
-        if (!StringUtils.isEmpty(beanFilter.getPriceFrom())) {
-            searchCriteria.add(new SearchCriteria("priceFrom", beanFilter.getPriceFrom()));
-        }
-
-        if (!StringUtils.isEmpty(beanFilter.getPriceTo())) {
-            searchCriteria.add(new SearchCriteria("priceTo", beanFilter.getPriceTo()));
-        }
-
-        if (!StringUtils.isEmpty(beanFilter.getTitle())) {
-            searchCriteria.add(new SearchCriteria("title", "%" + beanFilter.getTitle() + "%"));
-        }
-        return searchCriteria;
-    }
-
     private Specification<Goods> specification(SearchCriteria searchCriteria) {
         return (root, query, builder) -> {
-            if (searchCriteria != null) {
-                if (searchCriteria.getFieldName().equals("idManufacture")) {
-                    return builder.equal(root.get(searchCriteria.getFieldName()), searchCriteria.getValue());
-                }
-                if (searchCriteria.getFieldName().equals("idType")) {
-                    return builder.equal(root.get(searchCriteria.getFieldName()), searchCriteria.getValue());
-                }
-
-                if (searchCriteria.getFieldName().equals("priceFrom")) {
-                    return builder.greaterThan(root.get("price"), searchCriteria.getValue());
-                }
-
-                if (searchCriteria.getFieldName().equals("priceTo")) {
-                    return builder.lessThan(root.get("price"), searchCriteria.getValue());
-                }
-
-                if (searchCriteria.getFieldName().equals("title")) {
-                    return builder.like(root.get(searchCriteria.getFieldName()), searchCriteria.getValue());
-                }
+            if (searchCriteria.getFieldName().equals("priceFrom")) {
+                return builder.greaterThanOrEqualTo(root.get("price"), searchCriteria.getValue());
             }
-            return null;
+
+            if (searchCriteria.getFieldName().equals("priceTo")) {
+                return builder.lessThanOrEqualTo(root.get("price"), searchCriteria.getValue());
+            }
+
+            if (searchCriteria.getFieldName().equals("title")) {
+                return builder.like(root.get(searchCriteria.getFieldName()), searchCriteria.getValue());
+            }
+
+            if (StringUtils.isEmpty(searchCriteria.getValue())) {
+                return null;
+            }
+            return builder.equal(root.get(searchCriteria.getFieldName()), searchCriteria.getValue());
         };
     }
 }

@@ -1,22 +1,21 @@
 package com.epam.controller;
 
-import com.epam.bean.BeanFilter;
+import com.epam.bean.validation.FilterValidator;
 import com.epam.controller.pages.Pages;
 import com.epam.database.entity.Goods;
+import com.epam.database.search.SearchCriteria;
 import com.epam.service.GoodsService;
 import com.epam.service.ManufacturerService;
 import com.epam.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class Index {
@@ -28,24 +27,21 @@ public class Index {
     private GoodsService goodsService;
 
     @Autowired
-    @Qualifier("beanFilterValidator")
-    private Validator filterValidator;
+    private FilterValidator filterValidator;
 
-    @InitBinder
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(filterValidator);
-    }
 
     @GetMapping("/index")
-    protected String homeController(@Validated BeanFilter filter, HttpServletRequest request) {
+    protected String homeController(@RequestParam(required = false) Map<String, String> filter, HttpServletRequest request) {
+        filterValidator.validate(filter);
         String queryString = clearQueryString(request.getQueryString());
         request.setAttribute("queryString", queryString);
-
         request.setAttribute("typeSelectAll", typeService.selectAll());
         request.setAttribute("manufacturerSelectAll", manufacturerService.selectAll());
 
-        List<Goods> goodsList = goodsService.selectAllForPage(filter);
-        long fullNumberGoods = goodsService.countGoods(filter);
+        List<SearchCriteria> searchCriteria = buildSearchCriteria(filter);
+        List<Goods> goodsList = goodsService.selectAllForPage(searchCriteria);
+        long fullNumberGoods = goodsService.countGoods(searchCriteria);
+
         request.setAttribute("goods", goodsList);
         request.setAttribute("fullNumberGoods", fullNumberGoods);
 
@@ -55,6 +51,12 @@ public class Index {
     private String clearQueryString(String queryString) {
         queryString = queryString == null ? "" : queryString;
         return queryString.replaceFirst("currentPage=\\d+&", "");
+    }
+
+    private List<SearchCriteria> buildSearchCriteria(Map<String, String> filter) {
+        return filter.entrySet().stream()
+                .map(stringStringEntry -> new SearchCriteria(stringStringEntry.getKey(), stringStringEntry.getValue()))
+                .collect(Collectors.toList());
     }
 
 }
