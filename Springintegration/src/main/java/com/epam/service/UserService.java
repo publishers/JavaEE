@@ -15,7 +15,7 @@ public class UserService {
     }
 
     public boolean insert(User user) {
-        return false;
+        return userDAO.save(user) != null;
     }
 
     public User select(User user) {

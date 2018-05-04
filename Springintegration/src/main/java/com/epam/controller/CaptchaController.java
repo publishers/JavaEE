@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -34,18 +35,22 @@ public class CaptchaController {
     private static final Cage CAGE = new Cage();
 
     @GetMapping("/captcha")
-    protected void doGet(ServletContext servletContext, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer token = getTokenCaptcha(servletContext);
+        Integer token = getTokenCaptcha(request, response);
         setResponseHeaders(response);
         CAGE.draw(token.toString(), response.getOutputStream());
     }
 
-    private Integer getTokenCaptcha(ServletContext servletContext) {
+    private Integer getTokenCaptcha(HttpServletRequest request, HttpServletResponse response) {
+
+        ServletContext servletContext = request.getServletContext();
         Captcha captcha = (Captcha) servletContext.getAttribute(SAVER_CAPTCHA);
+        captcha.setRequest(request);
+        captcha.setResponse(response);
         MapCaptchas mapCaptchas = (MapCaptchas) servletContext.getAttribute(MAP_CAPTCHA);
         if (mapCaptchas == null) {
-            return null;
+            return -1;
         }
         Integer val = captcha.getIdCaptcha();
         return val != null ? (mapCaptchas.getCaptchaById(val) != null ?

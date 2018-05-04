@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -97,12 +98,12 @@ public class Registration {
     }
 
     @PostMapping("/registration")
-    protected String doPost(@RequestAttribute @Valid BeanForm beanForm,
-                            BindingResult result,
-                            HttpServletRequest request,
-                            HttpServletResponse response) throws ServletException, IOException {
+    protected String postRegistration(@Valid BeanForm beanForm,
+                                      BindingResult result,
+                                      HttpServletRequest request,
+                                      HttpServletResponse response) throws ServletException, IOException {
         String redirectPage = request.getRequestURI();
-        if (result.hasErrors() && isValidCaptcha(request, beanForm)) {
+        if (!result.hasErrors() && isValidCaptcha(request, beanForm)) {
             User user = extractUser(beanForm);
             try {
                 if (userService.selectUserByEmail(user.getEmail()) == null) {
@@ -118,7 +119,7 @@ public class Registration {
                 LOG.warn("Something was wrong: \n" + ex);
             }
         }
-        return redirectPage;
+        return "/"+redirectPage;
     }
 
     private boolean isUserSessionExist(HttpServletRequest request) {
