@@ -6,7 +6,7 @@ spring:
     datasource:
         driverClassName: com.mysql.jdbc.Driver
         url: jdbc:mysql://localhost:3306/shopcakes?useSSL=false&tinyInt1isBit=false
-        password: root
+        password: admin
         username: root
         maxWait: 10000
         maxIdle: 30
@@ -30,7 +30,7 @@ spring:
 web:
     security:
         static:
-            resources: /css/**, /js/**, /images/**, /fonts/**, /index, /registration, /captcha
+            resources: /css/**, /js/**, /images/**, /fonts/**, /index, /registration, /captcha, /cart
         page:
             index: /index
             admin: /admin/**

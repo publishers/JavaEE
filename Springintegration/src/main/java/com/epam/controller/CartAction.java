@@ -9,9 +9,8 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -37,37 +36,27 @@ public class CartAction {
     }
 
     @PostMapping("/cart")
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        String idGoods = checkIdGoods(request.getParameter("idGoods"));
+
+    protected void purcaseGoods(@RequestParam String action,
+                                @RequestParam String idGoods,
+                                HttpSession session, HttpServletResponse response) throws IOException {
+        idGoods = checkIdGoods(idGoods);
         if (isNull(idGoods)) {
             response.sendError(400, "Wrong query!\n Please, check your query!");
             return;
         }
 
-        Goods goods = new Goods();
-        goods.setId(Integer.parseInt(idGoods));
-
-        goods = goodsService.selectById(goods);
-        JSONObject json = new JSONObject();
-        Cart cart = getCart(request);
-        doAction(goods, cart, action, json);
+        Goods goods = goodsService.selectById(Integer.parseInt(idGoods));
+        Cart cart = getSessionCart(session);
+        JSONObject json = prepareJsonObject(goods, cart, action);
         sendJSONResponse(response, json);
     }
 
-    private void doAction(Goods goods, Cart cart, String action, JSONObject json) {
-        if (!action.equals("updateGoodsData")) {
-            actionMap.get(action).doAction(cart, goods);
-            json.put("orderSum", cart.getSumOfOrder());
-            json.put("orderCountGoods", cart.countGoods());
-        } else {
-            json.put("count", cart.getCart().get(goods));
-            json.put("priceGoods", goods.getPrice());
-        }
+    private String checkIdGoods(String idGoods) {
+        return idGoods.matches("\\d+") ? idGoods : null;
     }
 
-    private Cart getCart(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+    private Cart getSessionCart(HttpSession session) {
         Cart cart = (Cart) session.getAttribute(CART_SESSION);
         if (isNull(cart)) {
             cart = new Cart();
@@ -76,11 +65,20 @@ public class CartAction {
         return cart;
     }
 
-    private String checkIdGoods(String idGoods) {
-        return idGoods.matches("\\d+") ? idGoods : null;
+    private JSONObject prepareJsonObject(Goods goods, Cart cart, String action) {
+        JSONObject json = new JSONObject();
+        if (!action.equals("updateGoodsData")) {
+            actionMap.get(action).doAction(cart, goods);
+            json.put("orderSum", cart.getSumOfOrder());
+            json.put("orderCountGoods", cart.countGoods());
+        } else {
+            json.put("count", cart.getCart().get(goods));
+            json.put("priceGoods", goods.getPrice());
+        }
+        return json;
     }
 
-    public void sendJSONResponse(HttpServletResponse response, JSONObject json) throws IOException {
+    private void sendJSONResponse(HttpServletResponse response, JSONObject json) throws IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();

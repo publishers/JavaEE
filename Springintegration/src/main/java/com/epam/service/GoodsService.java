@@ -20,8 +20,8 @@ public class GoodsService {
     @Autowired
     private GoodsDAO goodsDAO;
 
-    public Goods selectById(Goods goods) {
-        return goodsDAO.findOne(goods.getId());
+    public Goods selectById(int idGoods) {
+        return goodsDAO.findOne(idGoods);
     }
 
     public List<Goods> selectAllForPage(List<SearchCriteria> criteria) {
